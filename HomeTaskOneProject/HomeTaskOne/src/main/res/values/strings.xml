@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Albums Preview</string>
+    <string name="action_settings">Settings</string>
+    <string name="empty">Nothing to show.</string>
+    <string-array name="bands_array">
+        <item>Bullet For My Valentine</item>
+        <item>Escape The Fate</item>
+        <item>Asking Alexandria</item>
+    </string-array>
+    <string-array name="BFMV_albums">
+        <item>The Poison</item>
+        <item>Scream Aim Fire</item>
+        <item>Fever</item>
+        <item>Temper Temper</item>
+    </string-array>
+    <string-array name="ETF_albums">
+        <item>Dying Is Your Latest Fashion</item>
+        <item>This War Is Ours</item>
+        <item>Escape the Fate</item>
+        <item>Ungrateful</item>
+    </string-array>
+    <string-array name="AA_albums">
+        <item>Stand Up And Scream</item>
+        <item>Reckless &amp; Relentless</item>
+        <item>From Death To Destiny</item>
+    </string-array>
+
+</resources>
