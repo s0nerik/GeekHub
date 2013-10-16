@@ -19,36 +19,4 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:name="com.example.hometaskone.BandSelectorFragment"-->
-        <!--android:id="@+id/bandChooser"-->
-        <!--android:layout_weight="5"-->
-        <!--tools:layout="@layout/simple_list_item_1" />-->
-
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:name="com.example.hometaskone.AlbumSelectorFragment"-->
-        <!--android:id="@+id/albumChooser"-->
-        <!--android:layout_weight="4"-->
-        <!--tools:layout="@layout/simple_list_item_1" />-->
-
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:name="com.example.hometaskone.ViewerFragment"-->
-        <!--android:id="@+id/viewer"-->
-        <!--android:layout_weight="2"-->
-        <!--tools:layout="@layout/viewer" />-->
-
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:name="com.example.hometaskone.FragmentTwo"-->
-        <!--android:id="@+id/fragment2"-->
-        <!--android:layout_weight="1"-->
-        <!--tools:layout="@layout/fragment2" />-->
-
 </LinearLayout>
