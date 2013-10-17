@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -13,6 +15,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null){
+            ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+            drawerList.setAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_activated_1, new String[]{"Post-Hardcore", "Metalcore", "Alternative Rock"}));
+
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
             BandSelectorFragment bandSelector = new BandSelectorFragment();
