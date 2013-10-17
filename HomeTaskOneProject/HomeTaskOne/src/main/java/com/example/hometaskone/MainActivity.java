@@ -13,12 +13,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_activated_1, new String[]{"Post-Hardcore", "Metalcore", "Alternative Rock"}));
         if (savedInstanceState == null){
-            ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-            drawerList.setAdapter(new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_activated_1, new String[]{"Post-Hardcore", "Metalcore", "Alternative Rock"}));
-
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
             BandSelectorFragment bandSelector = new BandSelectorFragment();
