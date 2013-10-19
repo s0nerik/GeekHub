@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
                     case 0:
                         if(fragmentManager.findFragmentByTag("animation_selector") != null){
                             fragmentManager.popBackStack();
+                            getSupportActionBar().setTitle("Albums Preview");
                         }
                         break;
                     case 1:
@@ -38,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
                             fragmentTransaction.replace(R.id.container2, animation, "animation");
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
+                            getSupportActionBar().setTitle("Animations");
                         }
                         break;
                 }
@@ -62,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
             getSupportFragmentManager().popBackStack("selection_screen", 0);
         }else if (getSupportFragmentManager().findFragmentByTag("animation_selector") != null){
             super.onBackPressed();
+            getSupportActionBar().setTitle("Albums Preview");
         }else{
             finish();
         }
