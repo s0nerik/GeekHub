@@ -50,7 +50,7 @@ public class BandSelectorFragment extends ListFragment {
                 break;
         }
         fragmentTransaction.replace(R.id.container2, albumSelector);
-        fragmentTransaction.addToBackStack("selection_screen");
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

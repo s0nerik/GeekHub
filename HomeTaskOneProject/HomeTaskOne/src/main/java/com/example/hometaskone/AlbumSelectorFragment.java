@@ -28,7 +28,6 @@ public class AlbumSelectorFragment extends ListFragment {
             band = savedInstanceState.getString("band");
             albums = (String[]) savedInstanceState.getSerializable("albums");
         }
-        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, albums);
         setListAdapter(adapter);

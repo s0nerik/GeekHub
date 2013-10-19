@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
             fragmentTransaction.replace(R.id.container1, bandSelector, "band_selector");
             fragmentTransaction.replace(R.id.container2, albumSelector, "album_selector");
+            fragmentTransaction.addToBackStack("selection_screen");
             fragmentTransaction.commit();
         }
     }
@@ -59,8 +60,10 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed(){
         if (getSupportFragmentManager().findFragmentByTag("album_viewer") != null){
             getSupportFragmentManager().popBackStack("selection_screen", 0);
-        }else{
+        }else if (getSupportFragmentManager().findFragmentByTag("animation_selector") != null){
             super.onBackPressed();
+        }else{
+            finish();
         }
     }
 
