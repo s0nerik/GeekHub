@@ -28,8 +28,9 @@ public class AlbumSelectorFragment extends ListFragment {
             band = savedInstanceState.getString("band");
             albums = (String[]) savedInstanceState.getSerializable("albums");
         }
+        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_activated_1, albums);
+                android.R.layout.simple_list_item_1, albums);
         setListAdapter(adapter);
     }
 
@@ -45,7 +46,7 @@ public class AlbumSelectorFragment extends ListFragment {
         ViewerFragment viewer = new ViewerFragment(band, album, getAlbumCover(album));
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container1, viewer);
+        fragmentTransaction.replace(R.id.container1, viewer, "album_viewer");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

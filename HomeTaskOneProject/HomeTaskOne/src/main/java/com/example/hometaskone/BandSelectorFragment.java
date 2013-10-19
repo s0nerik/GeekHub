@@ -17,7 +17,7 @@ public class BandSelectorFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_activated_1, bands);
+                android.R.layout.simple_list_item_1, bands);
         setListAdapter(adapter);
     }
 
@@ -31,6 +31,7 @@ public class BandSelectorFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
         AlbumSelectorFragment albumSelector = null;
         String chosenBand = (String) l.getAdapter().getItem(position);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         switch(position){
             case 0:
                 albumSelector = new AlbumSelectorFragment(chosenBand, new String[] {"The Poison", "Scream Aim Fire", "Fever", "Temper Temper"});
@@ -48,8 +49,8 @@ public class BandSelectorFragment extends ListFragment {
                 albumSelector = new AlbumSelectorFragment(chosenBand, new String[] {"Head Movies", "Does", "The Wall Eater"});
                 break;
         }
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container2, albumSelector);
+        fragmentTransaction.addToBackStack("selection_screen");
         fragmentTransaction.commit();
     }
 
