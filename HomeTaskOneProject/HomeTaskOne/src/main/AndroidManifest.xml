@@ -15,14 +15,26 @@
         android:theme="@style/Theme.AppCompat.Light"
         android:configChanges="orientation|screenSize">
         <activity
-            android:name="com.example.hometaskone.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".activity.MainActivity"
+            android:label="Albums Preview" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.BandSelectorActivity"
+            android:label="Band chooser" />
+        <activity
+            android:name=".activity.AlbumSelectorActivity"
+            android:label="Album chooser" />
+        <activity
+            android:name=".activity.AnimationActivity"
+            android:label="Animations" />
+        <activity
+            android:name=".activity.ViewerActivity"
+            android:label="Viewer" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.hometaskone;
+package com.example.hometaskone.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.example.hometaskone.R;
 
 public class AnimationSelectorFragment extends ListFragment {
 

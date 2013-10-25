@@ -1,5 +1,6 @@
-package com.example.hometaskone;
+package com.example.hometaskone.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
@@ -8,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.hometaskone.R;
+import com.example.hometaskone.activity.ViewerActivity;
 
 public class AlbumSelectorFragment extends ListFragment {
 
@@ -42,12 +46,24 @@ public class AlbumSelectorFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         String album = (String) l.getAdapter().getItem(position);
-        ViewerFragment viewer = new ViewerFragment(band, album, getAlbumCover(album));
+        int cover = getAlbumCover(album);
 
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container1, viewer, "album_viewer");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(getResources().getBoolean(R.bool.isTablet)){
+            ViewerFragment viewer = new ViewerFragment(band, album, cover);
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container3, viewer, "album_viewer");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            Bundle bundle = new Bundle();
+            bundle.putString("band", band);
+            bundle.putString("album", album);
+            bundle.putInt("cover", cover);
+
+            Intent intent = new Intent(getActivity(), ViewerActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     @Override
