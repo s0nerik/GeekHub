@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.keddreader.R;
-import com.example.keddreader.model.FeedSingleton;
 
 public class ArticleFragment extends Fragment {
 

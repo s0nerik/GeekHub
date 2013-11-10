@@ -46,8 +46,8 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
     @Override
     protected Feed doInBackground(String... params) {
 //        System.out.println("AsyncRSS doInBackground started");
-        XmlPullParserFactory factory = null;
-        XmlPullParser xpp = null;
+        XmlPullParserFactory factory;
+        XmlPullParser xpp;
         String name;
         try {
             factory = XmlPullParserFactory.newInstance();
