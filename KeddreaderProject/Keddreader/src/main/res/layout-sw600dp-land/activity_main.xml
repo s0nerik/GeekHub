@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="3"
+        android:id="@+id/titles_fragment"
+        android:name="com.example.keddreader.fragment.TitlesFragment"
+        tools:layout="@layout/fragment_titles" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="10dp"
+        android:layout_height="fill_parent"
+        android:background="@drawable/shadow" />
+
+    <fragment
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/article_fragment"
+        android:name="com.example.keddreader.fragment.ArticleFragment"
+        tools:layout="@layout/fragment_article" />
+
+</LinearLayout>
