@@ -26,7 +26,7 @@ public class TitlesFragment extends ListFragment {
         if (savedInstanceState != null){
             titles = savedInstanceState.getStringArray("titles");
             contents = savedInstanceState.getStringArray("contents");
-            setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles));
+            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
         }
         return inflater.inflate(R.layout.fragment_titles, container, false);
     }
@@ -54,7 +54,7 @@ public class TitlesFragment extends ListFragment {
 
     public void setTitles(String[] titles){
         this.titles = titles;
-        setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles));
+        setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
     }
 
     public void setContents(String[] contents){

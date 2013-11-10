@@ -18,5 +18,6 @@
 -->
 
 <resources>
+    <color name="checked_keddr">#cc69cc00</color>
     <color name="pressed_keddr">#CC99CC00</color>
 </resources>
