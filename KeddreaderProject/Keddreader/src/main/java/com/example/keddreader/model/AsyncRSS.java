@@ -3,7 +3,6 @@ package com.example.keddreader.model;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.view.WindowManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -46,7 +45,6 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
 
     @Override
     protected Feed doInBackground(String... params) {
-//        System.out.println("AsyncRSS doInBackground started");
         XmlPullParserFactory factory;
         XmlPullParser xpp;
         String name;
