@@ -6,12 +6,6 @@
     android:id="@+id/article_container"
     android:layout_height="match_parent">
 
-    <!--<LinearLayout-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--android:id="@+id/article_container" />-->
-
     <fragment android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:name="com.example.keddreader.fragment.ArticleFragment"

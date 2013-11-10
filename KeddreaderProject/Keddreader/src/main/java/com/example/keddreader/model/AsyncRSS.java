@@ -3,6 +3,7 @@ package com.example.keddreader.model;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.WindowManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -25,7 +26,7 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
     AsyncFeedGetter caller;
     FeedSingleton fs;
 
-    ProgressDialog progDailog;
+    ProgressDialog progDialog;
 
     public AsyncRSS(AsyncFeedGetter caller, FeedSingleton fs){
         this.caller = caller;
@@ -35,12 +36,12 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progDailog = new ProgressDialog((Activity) caller);
-        progDailog.setMessage("Loading feed...");
-        progDailog.setIndeterminate(false);
-        progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDailog.setCancelable(true);
-        progDailog.show();
+        progDialog = new ProgressDialog((Activity) caller);
+        progDialog.setMessage("Loading feed...");
+        progDialog.setIndeterminate(false);
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setCancelable(true);
+        progDialog.show();
     }
 
     @Override
@@ -112,7 +113,7 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
         super.onPostExecute(f);
         caller.onFeedParsed(f);
         fs.onFeedParsed(f);
-        progDailog.dismiss();
+        progDialog.dismiss();
     }
 
 }
