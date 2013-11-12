@@ -15,14 +15,15 @@ public class ArticleActivity extends ActionBarActivity {
 
     String title;
     String content;
+    FeedSingleton feedSingleton = FeedSingleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        title = FeedSingleton.getInstance(this).getFeed().getCurrentTitle();
-        content = FeedSingleton.getInstance(this).getFeed().getCurrentContent();
+        title = feedSingleton.getFeed().getCurrentTitle();
+        content = feedSingleton.getFeed().getCurrentContent();
 
         if(getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             finish();

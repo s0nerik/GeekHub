@@ -7,6 +7,8 @@ public class Feed {
 
     private String current_title;
     private String current_content;
+    private String[] titles;
+    private String[] contents;
 
     final ArrayList<FeedMessage> entries = new ArrayList<>();
 
@@ -18,29 +20,53 @@ public class Feed {
         entries.add(msg);
     }
 
-    public String[] getTitles(){
-        ArrayList<String> titles = new ArrayList<>();
-        for (FeedMessage m:entries){
-            titles.add(m.getTitle());
-        }
-        return titles.toArray(new String[titles.size()]);
+    public String[] getTitles() {
+        return titles;
     }
 
-    public String[] getLinks(){
-        ArrayList<String> links = new ArrayList<>();
-        for (FeedMessage m:entries){
-            links.add(m.getGuid());
-        }
-        return links.toArray(new String[links.size()]);
+    public String[] getContents() {
+        return contents;
     }
 
-    public String[] getContents(){
-        ArrayList<String> links = new ArrayList<>();
-        for (FeedMessage m:entries){
-            links.add(m.getContent());
+    public void setInnerTitles(){
+        String[] titles = new String[entries.size()];
+        for (int i=0; i<entries.size(); i++){
+            titles[i] = entries.get(i).getTitle();
         }
-        return links.toArray(new String[links.size()]);
+        this.titles = titles;
     }
+
+    public void setInnerContents(){
+        String[] contents = new String[entries.size()];
+        for (int i=0; i<entries.size(); i++){
+            contents[i] = entries.get(i).getContent();
+        }
+        this.contents = contents;
+    }
+
+//    public String[] getTitles(){
+//        ArrayList<String> titles = new ArrayList<>();
+//        for (FeedMessage m:entries){
+//            titles.add(m.getTitle());
+//        }
+//        return titles.toArray(new String[titles.size()]);
+//    }
+
+//    public String[] getLinks(){
+//        ArrayList<String> links = new ArrayList<>();
+//        for (FeedMessage m:entries){
+//            links.add(m.getGuid());
+//        }
+//        return links.toArray(new String[links.size()]);
+//    }
+
+//    public String[] getContents(){
+//        ArrayList<String> links = new ArrayList<>();
+//        for (FeedMessage m:entries){
+//            links.add(m.getContent());
+//        }
+//        return links.toArray(new String[links.size()]);
+//    }
 
     public void setCurrentContent(String current_content){
         this.current_content = current_content;

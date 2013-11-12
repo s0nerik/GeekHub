@@ -9,11 +9,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.keddreader.R;
+import com.example.keddreader.model.FeedSingleton;
 
 public class ArticleFragment extends Fragment {
 
     WebView page;
     String content;
+    FeedSingleton feedSingleton = FeedSingleton.getInstance(getActivity());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +29,9 @@ public class ArticleFragment extends Fragment {
 
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
 
+        if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){
+            page.loadUrl("file:///android_asset/default.html");
+        }
     }
 
     @Override

@@ -19,6 +19,7 @@ public class TitlesFragment extends ListFragment {
     String[] titles;
     String[] contents;
     String current_title;
+    FeedSingleton feedSingleton = FeedSingleton.getInstance(getActivity());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,8 +41,8 @@ public class TitlesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
-        FeedSingleton.getInstance(getActivity()).getFeed().setCurrentContent(contents[position]);
-        FeedSingleton.getInstance(getActivity()).getFeed().setCurrentTitle(titles[position]);
+        feedSingleton.getFeed().setCurrentContent(contents[position]);
+        feedSingleton.getFeed().setCurrentTitle(titles[position]);
         if(getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             ArticleFragment article = (ArticleFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
             article.setContent(contents[position]);
@@ -49,7 +50,11 @@ public class TitlesFragment extends ListFragment {
             Intent intent = new Intent(getActivity(), ArticleActivity.class);
             startActivity(intent);
         }
-        current_title = titles[position];
+//        current_title = titles[position];
+    }
+
+    public void setEmpty(){
+        setListAdapter(null);
     }
 
     public void setTitles(String[] titles){

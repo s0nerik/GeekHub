@@ -1,7 +1,5 @@
 package com.example.keddreader.model;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import org.apache.http.HttpResponse;
@@ -23,24 +21,11 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
     FeedMessage msg;
 
     AsyncFeedGetter caller;
-    FeedSingleton fs;
-
-    ProgressDialog progDialog;
+    FeedSingleton feedSingleton;
 
     public AsyncRSS(AsyncFeedGetter caller, FeedSingleton fs){
         this.caller = caller;
-        this.fs = fs;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        progDialog = new ProgressDialog((Activity) caller);
-        progDialog.setMessage("Loading feed...");
-        progDialog.setIndeterminate(false);
-        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDialog.setCancelable(true);
-        progDialog.show();
+        this.feedSingleton = fs;
     }
 
     @Override
@@ -65,21 +50,22 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
                                 case "title":
                                     msg.setTitle(xpp.nextText());
                                     break;
-                                case "link":
-                                    msg.setLink(xpp.nextText());
-                                    break;
-                                case "guid":
-                                    msg.setGuid(xpp.nextText());
-                                    break;
-                                case "description":
-                                    msg.setDescription(xpp.nextText());
-                                    break;
-                                case "pubDate":
-                                    msg.setPubDate(xpp.nextText());
-                                    break;
+
                                 case "encoded":
                                     msg.setContent(xpp.nextText());
                                     break;
+//                                case "link":
+//                                    msg.setLink(xpp.nextText());
+//                                    break;
+//                                case "guid":
+//                                    msg.setGuid(xpp.nextText());
+//                                    break;
+//                                case "description":
+//                                    msg.setDescription(xpp.nextText());
+//                                    break;
+//                                case "pubDate":
+//                                    msg.setPubDate(xpp.nextText());
+//                                    break;
                             }
                         }
                         xpp.next();
@@ -109,9 +95,8 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
     @Override
     protected void onPostExecute(Feed f) {
         super.onPostExecute(f);
+        feedSingleton.onFeedParsed(f);
         caller.onFeedParsed(f);
-        fs.onFeedParsed(f);
-        progDialog.dismiss();
     }
 
 }

@@ -21,6 +21,7 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
     String[] contents;
     String current_content;
     TitlesFragment titlesFragment;
+    FeedSingleton feedSingleton = FeedSingleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,28 +31,30 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
         titlesFragment = (TitlesFragment) getSupportFragmentManager().findFragmentById(R.id.titles_fragment);
 
         if(savedInstanceState == null){
-            updateRSS();
+//            updateRSS();
             // Load default page if running on the tablet in landscape orientation
             if (getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 WebView page = (WebView) findViewById(R.id.article_WebView);
                 page.loadUrl("file:///android_asset/default.html");
             }
         }else{
-            titles = FeedSingleton.getInstance(this).getFeed().getTitles();
-            contents = FeedSingleton.getInstance(this).getFeed().getContents();
+            titles = feedSingleton.getFeed().getTitles();
+            contents = feedSingleton.getFeed().getContents();
 
             if (getResources().getBoolean(R.bool.isTablet)){
+                current_content = feedSingleton.getFeed().getCurrentContent();
                 switch(getResources().getConfiguration().orientation){
                     case Configuration.ORIENTATION_LANDSCAPE:
-                        current_content = FeedSingleton.getInstance(this).getFeed().getCurrentContent();
                         if(current_content != null){
                             ArticleFragment article = (ArticleFragment) getSupportFragmentManager().findFragmentById(R.id.article_fragment);
                             article.setContent(current_content);
                         }
                         break;
                     case Configuration.ORIENTATION_PORTRAIT:
-                        Intent intent = new Intent(this, ArticleActivity.class);
-                        startActivity(intent);
+                        if(current_content != null){
+                            Intent intent = new Intent(this, ArticleActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                 }
             }else{
@@ -62,13 +65,14 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
     }
 
     private void updateRSS(){
-        FeedSingleton.getInstance(this);
+        titlesFragment.setEmpty();
+        feedSingleton.refreshFeed(this);
     }
 
     @Override
     public void onFeedParsed(Feed feed){
-        titles = feed.getTitles();
-        contents = feed.getContents();
+        titles = feedSingleton.getFeed().getTitles();
+        contents = feedSingleton.getFeed().getContents();
 
         titlesFragment.setTitles(titles);
         titlesFragment.setContents(contents);
@@ -96,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                FeedSingleton.getInstance(this).refreshFeed();
+                updateRSS();
                 return true;
         }
         return super.onOptionsItemSelected(item);

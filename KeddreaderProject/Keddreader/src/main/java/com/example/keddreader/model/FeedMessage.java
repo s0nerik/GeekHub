@@ -56,16 +56,7 @@ public class FeedMessage {
     }
 
     public void setContent(String cnt){
-        content = "<html>"
-                    +"<head>"
-                        +"<style type=\"text/css\">"
-                            +"img { max-width: 100%; }"
-                        +"</style>"
-                    +"</head>"
-                    +"<body>"
-                        +cnt.replace("src=\"//", "src=\"http://")
-                    +"</body>"
-                 +"</html>";
+        content = "<html><head><style type=\"text/css\">img { max-width: 100%; }</style></head><body>"+cnt.replace("src=\"//", "src=\"http://")+"</body></html>";
         Document doc = Jsoup.parse(content);
 
         Elements imgs = doc.body().select("img");
