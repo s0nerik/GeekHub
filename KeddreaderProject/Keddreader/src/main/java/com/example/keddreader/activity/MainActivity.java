@@ -17,11 +17,11 @@ import com.example.keddreader.model.FeedSingleton;
 
 public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
 
-    String[] titles;
-    String[] contents;
+    static String[] titles;
+    static String[] contents;
     String current_content;
-    TitlesFragment titlesFragment;
-    FeedSingleton feedSingleton = FeedSingleton.getInstance(this);
+    static TitlesFragment titlesFragment;
+    static FeedSingleton feedSingleton = FeedSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +30,24 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
 
         titlesFragment = (TitlesFragment) getSupportFragmentManager().findFragmentById(R.id.titles_fragment);
 
+        if(feedSingleton.feedAvailable()){
+            titles = feedSingleton.getFeed().getTitles();
+            contents = feedSingleton.getFeed().getContents();
+            current_content = feedSingleton.getFeed().getCurrentContent();
+        }
+
         if(savedInstanceState == null){
-//            updateRSS();
+            loadRSS();
             // Load default page if running on the tablet in landscape orientation
             if (getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 WebView page = (WebView) findViewById(R.id.article_WebView);
                 page.loadUrl("file:///android_asset/default.html");
             }
         }else{
-            titles = feedSingleton.getFeed().getTitles();
-            contents = feedSingleton.getFeed().getContents();
-
+//            titles = feedSingleton.getFeed().getTitles();
+//            contents = feedSingleton.getFeed().getContents();
             if (getResources().getBoolean(R.bool.isTablet)){
-                current_content = feedSingleton.getFeed().getCurrentContent();
+//                current_content = feedSingleton.getFeed().getCurrentContent();
                 switch(getResources().getConfiguration().orientation){
                     case Configuration.ORIENTATION_LANDSCAPE:
                         if(current_content != null){
@@ -55,35 +60,64 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
                             Intent intent = new Intent(this, ArticleActivity.class);
                             startActivity(intent);
                         }
+//                        else{
+//                            if(feedSingleton.feedAvailable()){
+//                                titlesFragment.setTitles(titles);
+//                                titlesFragment.setContents(contents);
+//                            }
+//                        }
                         break;
                 }
             }else{
-                titlesFragment.setTitles(titles);
-                titlesFragment.setContents(contents);
+                if(feedSingleton.feedAvailable()){
+                    titlesFragment.setTitles(titles);
+                    titlesFragment.setContents(contents);
+                }
             }
         }
     }
 
     private void updateRSS(){
         titlesFragment.setEmpty();
+//        latch = new CountDownLatch(1);
+        feedSingleton.refreshFeed(this);
+    }
+
+    private void loadRSS(){
+//        titlesFragment.setEmpty();
+//        latch = new CountDownLatch(1);
         feedSingleton.refreshFeed(this);
     }
 
     @Override
     public void onFeedParsed(Feed feed){
-        titles = feedSingleton.getFeed().getTitles();
-        contents = feedSingleton.getFeed().getContents();
+        // Feed singleton is already available, so
+//        titles = feedSingleton.getFeed().getTitles();
+//        contents = feedSingleton.getFeed().getContents();
 
-        titlesFragment.setTitles(titles);
-        titlesFragment.setContents(contents);
+        titlesFragment.setSingletoneTitles();
+        titlesFragment.setSingletoneContents();
+//        titlesFragment.setContents(contents);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        state.putStringArray("titles", titles);
-        state.putStringArray("contents", contents);
+    public static void onFeedParsedFirst(Feed feed){
+//        titles = feedSingleton.getFeed().getTitles();
+//        contents = feedSingleton.getFeed().getContents();
+
+
+        titlesFragment.setSingletoneTitles();
+        titlesFragment.setSingletoneContents();
+
+//        titlesFragment.setSingletoneTitles();
+//        titlesFragment.setContents(contents);
     }
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle state) {
+//        super.onSaveInstanceState(state);
+//        state.putStringArray("titles", titles);
+//        state.putStringArray("contents", contents);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,5 +139,12 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
         }
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void onDestroy(){
+//        super.onDestroy();
+//        Log.d("DESTROY", "feedSingleton destroyed");
+//        feedSingleton.destroy();
+//    }
 
 }

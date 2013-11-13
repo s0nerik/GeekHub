@@ -19,25 +19,27 @@ public class TitlesFragment extends ListFragment {
     String[] titles;
     String[] contents;
     String current_title;
-    FeedSingleton feedSingleton = FeedSingleton.getInstance(getActivity());
+    FeedSingleton feedSingleton = FeedSingleton.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (savedInstanceState != null){
-            titles = savedInstanceState.getStringArray("titles");
-            contents = savedInstanceState.getStringArray("contents");
-            setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
+            if(feedSingleton.feedAvailable()){
+                titles = feedSingleton.getFeed().getTitles();
+                contents = feedSingleton.getFeed().getContents();
+                setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
+            }
         }
         return inflater.inflate(R.layout.fragment_titles, container, false);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        state.putStringArray("titles", titles);
-        state.putStringArray("contents", contents);
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle state) {
+//        super.onSaveInstanceState(state);
+////        state.putStringArray("titles", titles);
+////        state.putStringArray("contents", contents);
+//    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id){
@@ -50,7 +52,6 @@ public class TitlesFragment extends ListFragment {
             Intent intent = new Intent(getActivity(), ArticleActivity.class);
             startActivity(intent);
         }
-//        current_title = titles[position];
     }
 
     public void setEmpty(){
@@ -60,6 +61,15 @@ public class TitlesFragment extends ListFragment {
     public void setTitles(String[] titles){
         this.titles = titles;
         setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
+    }
+
+    public void setSingletoneTitles(){
+        titles = feedSingleton.getFeed().getTitles();
+        setListAdapter(new ArrayAdapter<>(getActivity(), R.layout.list_item, titles));
+    }
+
+    public void setSingletoneContents(){
+        contents = feedSingleton.getFeed().getContents();
     }
 
     public void setContents(String[] contents){

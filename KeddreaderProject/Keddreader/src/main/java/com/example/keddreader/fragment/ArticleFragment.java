@@ -15,7 +15,8 @@ public class ArticleFragment extends Fragment {
 
     WebView page;
     String content;
-    FeedSingleton feedSingleton = FeedSingleton.getInstance(getActivity());
+
+    FeedSingleton feedSingleton = FeedSingleton.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

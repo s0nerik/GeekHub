@@ -15,7 +15,7 @@ public class ArticleActivity extends ActionBarActivity {
 
     String title;
     String content;
-    FeedSingleton feedSingleton = FeedSingleton.getInstance(this);
+    FeedSingleton feedSingleton = FeedSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
