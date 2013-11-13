@@ -41,11 +41,14 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
             int eventType = xpp.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if("item".equals(xpp.getName()) && eventType == XmlPullParser.START_TAG){
+                    // Current tag is <item>, so start parsing feed message
                     xpp.next();
                     name = xpp.getName();
                     msg = new FeedMessage();
                     while (!"item".equals(name)){
+                        // Parse message while </item> not met
                         if(name != null){
+                            // Tag encountered
                             switch (name){
                                 case "title":
                                     msg.setTitle(xpp.nextText());
@@ -71,6 +74,7 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
                         xpp.next();
                         name = xpp.getName();
                     }
+                    // Message parsed, so add it to the feed
                     feed.addMessage(msg);
                 }
                 eventType = xpp.next();

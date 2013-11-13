@@ -2,7 +2,6 @@ package com.example.keddreader.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,15 +12,12 @@ import com.example.keddreader.fragment.ArticleFragment;
 import com.example.keddreader.fragment.TitlesFragment;
 import com.example.keddreader.model.AsyncFeedGetter;
 import com.example.keddreader.model.Feed;
-import com.example.keddreader.model.FeedSingleton;
 
-public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
+public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
-    static String[] titles;
-    static String[] contents;
-    String current_content;
-    static TitlesFragment titlesFragment;
-    static FeedSingleton feedSingleton = FeedSingleton.getInstance();
+    private String current_content;
+    private static TitlesFragment titlesFragment;
+    private static ArticleFragment article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,94 +26,80 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
 
         titlesFragment = (TitlesFragment) getSupportFragmentManager().findFragmentById(R.id.titles_fragment);
 
-        if(feedSingleton.feedAvailable()){
-            titles = feedSingleton.getFeed().getTitles();
-            contents = feedSingleton.getFeed().getContents();
-            current_content = feedSingleton.getFeed().getCurrentContent();
-        }
+        if(isTabletLand())
+            article = (ArticleFragment) getSupportFragmentManager().findFragmentById(R.id.article_fragment);
 
         if(savedInstanceState == null){
+
+            // Since activity started for the first time, we need to load RSS feed
             loadRSS();
+
             // Load default page if running on the tablet in landscape orientation
-            if (getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (isTabletLand()){
                 WebView page = (WebView) findViewById(R.id.article_WebView);
                 page.loadUrl("file:///android_asset/default.html");
             }
-        }else{
-//            titles = feedSingleton.getFeed().getTitles();
-//            contents = feedSingleton.getFeed().getContents();
-            if (getResources().getBoolean(R.bool.isTablet)){
-//                current_content = feedSingleton.getFeed().getCurrentContent();
+
+        }else{ // Screen rotated
+            if (isTablet()){
+
+                // Get current content if feed is not refreshing
+                if(feedSingleton.feedAvailable())
+                    current_content = feedSingleton.getFeed().getCurrentContent();
+
                 switch(getResources().getConfiguration().orientation){
+
                     case Configuration.ORIENTATION_LANDSCAPE:
-                        if(current_content != null){
-                            ArticleFragment article = (ArticleFragment) getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-                            article.setContent(current_content);
-                        }
+
+                        // Tablet is rotated to landscape orientation, so set current article content
+                        // If content is null, default content will be shown
+                        if(current_content != null)
+                            article.setSingletonCurrentContent();
                         break;
+
                     case Configuration.ORIENTATION_PORTRAIT:
+
+                        // Tablet rotated into portrait orientation, so start ArticleActivity
+                        // If current content is null, we don't need to show ArticleActivity
                         if(current_content != null){
                             Intent intent = new Intent(this, ArticleActivity.class);
                             startActivity(intent);
                         }
-//                        else{
-//                            if(feedSingleton.feedAvailable()){
-//                                titlesFragment.setTitles(titles);
-//                                titlesFragment.setContents(contents);
-//                            }
-//                        }
                         break;
                 }
             }else{
+
+                // Running on the phone, so we need only to update list
                 if(feedSingleton.feedAvailable()){
-                    titlesFragment.setTitles(titles);
-                    titlesFragment.setContents(contents);
+
+                    // Feed is not refreshing, so we can set titles and contents
+                    titlesFragment.setSingletoneTitles();
+                    titlesFragment.setSingletoneContents();
                 }
             }
         }
     }
 
     private void updateRSS(){
+
         titlesFragment.setEmpty();
-//        latch = new CountDownLatch(1);
+
+        if(isTabletLand()) // Tablet is in landscape mode, so we need to clear the article view
+            article.setEmpty();
+
         feedSingleton.refreshFeed(this);
     }
 
     private void loadRSS(){
-//        titlesFragment.setEmpty();
-//        latch = new CountDownLatch(1);
         feedSingleton.refreshFeed(this);
     }
 
     @Override
     public void onFeedParsed(Feed feed){
-        // Feed singleton is already available, so
-//        titles = feedSingleton.getFeed().getTitles();
-//        contents = feedSingleton.getFeed().getContents();
-
+        // Feed singleton is already available, so we can set titles and contents
         titlesFragment.setSingletoneTitles();
         titlesFragment.setSingletoneContents();
-//        titlesFragment.setContents(contents);
     }
-
-    public static void onFeedParsedFirst(Feed feed){
-//        titles = feedSingleton.getFeed().getTitles();
-//        contents = feedSingleton.getFeed().getContents();
-
-
-        titlesFragment.setSingletoneTitles();
-        titlesFragment.setSingletoneContents();
-
-//        titlesFragment.setSingletoneTitles();
-//        titlesFragment.setContents(contents);
-    }
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle state) {
-//        super.onSaveInstanceState(state);
-//        state.putStringArray("titles", titles);
-//        state.putStringArray("contents", contents);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,12 +121,5 @@ public class MainActivity extends ActionBarActivity implements AsyncFeedGetter{
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void onDestroy(){
-//        super.onDestroy();
-//        Log.d("DESTROY", "feedSingleton destroyed");
-//        feedSingleton.destroy();
-//    }
 
 }

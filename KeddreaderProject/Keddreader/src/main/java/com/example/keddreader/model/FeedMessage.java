@@ -56,15 +56,19 @@ public class FeedMessage {
     }
 
     public void setContent(String cnt){
+        // Replace wrong "//..." src's with "http://" and put it into html
         content = "<html><head><style type=\"text/css\">img { max-width: 100%; }</style></head><body>"+cnt.replace("src=\"//", "src=\"http://")+"</body></html>";
+        // Parse resulting html
         Document doc = Jsoup.parse(content);
 
+        // Remove "width" and "height" attributes of images to make them fit the screen
         Elements imgs = doc.body().select("img");
         imgs.removeAttr("width");
         imgs.removeAttr("height");
 
         content = doc.html();
 
+        // Replace videos with links on these videos
         Elements iframes = doc.body().select("iframe");
         for(Element iframe:iframes){
             content = content.replace(iframe.outerHtml(), "<a href=\""+iframe.attr("src")+"\">"+"Видео"+"</a>");

@@ -1,7 +1,6 @@
 package com.example.keddreader.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.keddreader.R;
-import com.example.keddreader.model.FeedSingleton;
 
-public class ArticleFragment extends Fragment {
+public class ArticleFragment extends BaseFragment {
 
-    WebView page;
-    String content;
-
-    FeedSingleton feedSingleton = FeedSingleton.getInstance();
+    private WebView page;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,9 +25,10 @@ public class ArticleFragment extends Fragment {
 
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
 
-        if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){
+        // If feed is refreshing or the article is not selected show default info page
+        if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null)
             page.loadUrl("file:///android_asset/default.html");
-        }
+
     }
 
     @Override
@@ -42,11 +38,14 @@ public class ArticleFragment extends Fragment {
         page.saveState(outState);
     }
 
-    public void setContent(String content){
-        this.content = content;
+    public void setSingletonCurrentContent(){
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
         page.setWebViewClient(new MyWebViewClient());
-        page.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
+        page.loadDataWithBaseURL(null, feedSingleton.getFeed().getCurrentContent(), "text/html", "UTF-8", null);
+    }
+
+    public void setEmpty(){
+        page.loadUrl("file:///android_asset/default.html");
     }
 
 //    private void initWebView(WebView wv){

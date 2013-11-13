@@ -1,35 +1,29 @@
 package com.example.keddreader.activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
-import com.example.keddreader.model.FeedSingleton;
 
-public class ArticleActivity extends ActionBarActivity {
-
-    String title;
-    String content;
-    FeedSingleton feedSingleton = FeedSingleton.getInstance();
+public class ArticleActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        title = feedSingleton.getFeed().getCurrentTitle();
-        content = feedSingleton.getFeed().getCurrentContent();
+        String title = feedSingleton.getFeed().getCurrentTitle();
 
-        if(getResources().getBoolean(R.bool.isTablet) && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if(isTabletLand()){
+            // Tablet is rotated to landscape mode, so show main activity
             finish();
         }else{
+            // Show current article
             ArticleFragment article = (ArticleFragment) getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-            article.setContent(content);
+            article.setSingletonCurrentContent();
             getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
