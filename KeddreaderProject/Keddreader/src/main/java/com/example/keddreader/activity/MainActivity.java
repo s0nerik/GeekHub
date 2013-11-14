@@ -12,6 +12,7 @@ import com.example.keddreader.fragment.ArticleFragment;
 import com.example.keddreader.fragment.TitlesFragment;
 import com.example.keddreader.model.AsyncFeedGetter;
 import com.example.keddreader.model.Feed;
+import com.example.keddreader.service.FeedCheckerService;
 
 public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
@@ -33,6 +34,9 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
             // Since activity started for the first time, we need to load RSS feed
             loadRSS();
+
+            // Start a service to check feed updates
+            startService(new Intent(MainActivity.this, FeedCheckerService.class));
 
             // Load default page if running on the tablet in landscape orientation
             if (isTabletLand()){

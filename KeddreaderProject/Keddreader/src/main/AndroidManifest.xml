@@ -18,6 +18,7 @@
         android:theme="@style/Theme.Keddr"
         android:hardwareAccelerated="true"
         android:name=".App">
+        <service android:name=".service.FeedCheckerService"/>
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop"
