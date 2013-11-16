@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="service_settings"
+        android:title="Service settings">
+        <CheckBoxPreference
+            android:key="service_enabled"
+            android:defaultValue="true"
+            android:summary="Service will check for feed updates with chosen interval"
+            android:title="Enable service?">
+        </CheckBoxPreference>
+        <ListPreference
+            android:dependency="service_enabled"
+            android:entries="@array/interval_settings_entries"
+            android:entryValues="@array/interval_settings_values"
+            android:key="refresh_interval"
+            android:defaultValue="60"
+            android:summary="Changes will apply after application restart"
+            android:title="Feed checking interval">
+        </ListPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
