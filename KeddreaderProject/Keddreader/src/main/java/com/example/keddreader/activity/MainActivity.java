@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
 
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
@@ -33,12 +32,6 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
             // Since activity started for the first time, we need to load RSS feed
             loadRSS();
-
-            // Load default page if running on the tablet in landscape orientation
-            if (isTabletLand()){
-                WebView page = (WebView) findViewById(R.id.article_WebView);
-                page.loadUrl("file:///android_asset/default.html");
-            }
 
         }else{ // Screen rotated
             if (isTablet()){

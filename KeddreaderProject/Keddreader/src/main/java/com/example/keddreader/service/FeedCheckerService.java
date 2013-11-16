@@ -3,6 +3,7 @@ package com.example.keddreader.service;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -22,13 +23,13 @@ import java.util.TimerTask;
 
 public class FeedCheckerService extends Service implements AsyncFeedChecker {
 
-    private static final int NOTIFICATION_FEED_CHECKER_STARTED = 0;
-    private static final int NOTIFICATION_FEED_UPDATED = 1;
+    public static final int NOTIFICATION_FEED_CHECKER_STARTED = 0;
+    public static final int NOTIFICATION_FEED_UPDATED = 1;
     private static final long SERVICE_FIRST_START_DELAY = 10000L; // This is 10 seconds, which equals 10000 milliseconds
     private static int REFRESH_INTERVAL;
     private boolean runningFirstTime = true;
-    private String lastBuildDate;
-    private NotificationManager notificationManager;
+    private static String lastBuildDate;
+    public static NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private Timer timer = new Timer();
 
@@ -38,7 +39,9 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        notifyFeedCheckerStarted();
+        if(sharedPreferences.getBoolean("service_notification_enabled", true)){
+            notifyFeedCheckerStarted(this);
+        }
     }
 
     @Override
@@ -72,17 +75,17 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
     }
 
     @Override
-    public void onFeedChecked(String lastBuildDate) {
+    public void onFeedChecked(String newLastBuildDate) {
 
         if(runningFirstTime){
-            this.lastBuildDate = lastBuildDate;
+            lastBuildDate = newLastBuildDate;
             runningFirstTime = false;
         }else{
 
             // If last build time isn't equals local last build time, show notification
-            if(!lastBuildDate.equals(this.lastBuildDate)){
+            if(!newLastBuildDate.equals(lastBuildDate)){
 
-                this.lastBuildDate = lastBuildDate;
+                lastBuildDate = newLastBuildDate;
                 notifyFeedUpdated();
 
             }
@@ -118,22 +121,22 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
 
     }
 
-    private void notifyFeedCheckerStarted(){
+    public static void notifyFeedCheckerStarted(Context context){
 
         // Create a notification builder
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(context)
                         .setOngoing(true)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("Keddr.com checker is running...")
                         .setContentText("Click here to turn it off");
 
         // Create intent which will start main activity when notification is clicked
-        Intent resultIntent = new Intent(this, PreferencesActivity.class);
+        Intent resultIntent = new Intent(context, PreferencesActivity.class);
 
         // Only add PreferencesActivity to the stack, because we don't need to navigate from
         // PreferencesActivity back after changing settings
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent =

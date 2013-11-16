@@ -1,5 +1,6 @@
 package com.example.keddreader.activity;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -13,9 +14,9 @@ import com.example.keddreader.service.FeedCheckerService;
 
 public class PreferencesActivity extends PreferenceActivity {
 
-    CheckBoxPreference enable_service_chBox;
-    PreferenceCategory service_settings;
-    ListPreference check_interval_list;
+    private CheckBoxPreference enable_service_chBox;
+    private ListPreference check_interval_list;
+    private CheckBoxPreference enable_service_notification_chBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,8 @@ public class PreferencesActivity extends PreferenceActivity {
 
         // Set variables to corresponding fields
         enable_service_chBox = (CheckBoxPreference) findPreference("service_enabled");
+        enable_service_notification_chBox = (CheckBoxPreference) findPreference("service_notification_enabled");
         check_interval_list = (ListPreference) findPreference("refresh_interval");
-        service_settings = (PreferenceCategory) findPreference("service_settings");
 
         // Hide check interval settings when service is disabled
         enable_service_chBox.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -43,6 +44,19 @@ public class PreferencesActivity extends PreferenceActivity {
                     startService(new Intent(PreferencesActivity.this, FeedCheckerService.class));
                 else
                     stopService(new Intent(PreferencesActivity.this, FeedCheckerService.class));
+                return true;
+            }
+        });
+
+        // Enable/Disable notification for feed checker
+        enable_service_notification_chBox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                boolean enabled = (Boolean) newValue;
+                if(enabled)
+                    FeedCheckerService.notifyFeedCheckerStarted(PreferencesActivity.this);
+                else{
+                    FeedCheckerService.notificationManager.cancel(FeedCheckerService.NOTIFICATION_FEED_CHECKER_STARTED);
+                }
                 return true;
             }
         });

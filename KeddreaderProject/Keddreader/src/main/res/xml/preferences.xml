@@ -11,6 +11,12 @@
             android:summary="Service will check for feed updates with chosen interval"
             android:title="Enable service?">
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="service_notification_enabled"
+            android:defaultValue="true"
+            android:summary="Notification will be shown while service is running"
+            android:title="Stay in the notification bar?">
+        </CheckBoxPreference>
         <ListPreference
             android:dependency="service_enabled"
             android:entries="@array/interval_settings_entries"

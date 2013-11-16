@@ -1,9 +1,12 @@
 package com.example.keddreader.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -25,30 +28,12 @@ public class ArticleFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
+        page.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         // If feed is refreshing or the article is not selected show default info page
         if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){
             if(Connectivity.isConnected(getActivity())){
                 page.loadUrl("file:///android_asset/default.html");
-            }else{
-                page.loadUrl("file:///android_asset/no_connection.html");
-                new Runnable(){
-                    Object waiter = new Object();
-                    @Override
-                    public void run(){
-                        while(true){
-                            try {
-                                waiter.wait(10000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            if(Connectivity.isConnected(getActivity())){
-                                page.loadUrl("file:///android_asset/default.html");
-                                break;
-                            }
-                        }
-                    }
-                }.run();
             }
         }
 
@@ -76,6 +61,9 @@ public class ArticleFragment extends BaseFragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
+//            view.loadUrl(url);
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            view.getContext().startActivity(intent);
             return true;
         }
 
