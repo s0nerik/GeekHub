@@ -2,7 +2,24 @@
 <resources>
 
     <string name="app_name">Keddreader</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="interval_settings_entries">
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>6 hours</item>
+    </string-array>
+
+    <string-array name="interval_settings_values">
+        <item>1</item>
+        <item>5</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>360</item>
+    </string-array>
 
 </resources>

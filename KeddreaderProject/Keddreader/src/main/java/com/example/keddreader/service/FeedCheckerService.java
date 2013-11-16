@@ -6,13 +6,16 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.example.keddreader.R;
 import com.example.keddreader.activity.MainActivity;
+import com.example.keddreader.activity.PreferencesActivity;
 import com.example.keddreader.model.AsyncFeedChecker;
 import com.example.keddreader.model.AsyncRssCheck;
+import com.example.keddreader.model.Connectivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,13 +30,13 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
     private String lastBuildDate;
     private NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
+    private Timer timer = new Timer();
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        sharedPreferences = getSharedPreferences("updating_settings", MODE_PRIVATE);
-        REFRESH_INTERVAL = sharedPreferences.getInt("REFRESH_TIME", 1);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         notifyFeedCheckerStarted();
     }
@@ -46,16 +49,26 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Timer timer = new Timer();
+        REFRESH_INTERVAL = Integer.valueOf(sharedPreferences.getString("refresh_interval", "60"));
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                new AsyncRssCheck(FeedCheckerService.this).execute("https://dl.dropboxusercontent.com/u/9689938/test/test_feed.xml");
-                new AsyncRssCheck(FeedCheckerService.this).execute("http://keddr.com/feed/");
+                if(Connectivity.isConnected(FeedCheckerService.this)){
+                    new AsyncRssCheck(FeedCheckerService.this).execute("https://dl.dropboxusercontent.com/u/9689938/test/test_feed.xml");
+//                    new AsyncRssCheck(FeedCheckerService.this).execute("http://keddr.com/feed/");
+                }
             }
         }, SERVICE_FIRST_START_DELAY, REFRESH_INTERVAL * 60000); // Start task every REFRESH_INTERVAL minutes, first time run it after SERVICE_FIRST_START_DELAY
 
         return Service.START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        timer.cancel();
+        notificationManager.cancel(NOTIFICATION_FEED_CHECKER_STARTED);
+        super.onDestroy();
     }
 
     @Override
@@ -81,8 +94,9 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
         // Create a notification builder
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_action_refresh)
+                        .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle("Keddr.com updated.")
+                        .setTicker("Keddr.com updated.")
                         .setAutoCancel(true)
                         .setContentText("Last update date: " + lastBuildDate);
 
@@ -111,15 +125,15 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
                 new NotificationCompat.Builder(this)
                         .setOngoing(true)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Feed checker is running...")
-                        .setContentText("You can turn it off in settings");
+                        .setContentTitle("Keddr.com checker is running...")
+                        .setContentText("Click here to turn it off");
 
         // Create intent which will start main activity when notification is clicked
-        Intent resultIntent = new Intent(this, MainActivity.class);
+        Intent resultIntent = new Intent(this, PreferencesActivity.class);
 
-        // Create back stack for intent
+        // Only add PreferencesActivity to the stack, because we don't need to navigate from
+        // PreferencesActivity back after changing settings
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent =

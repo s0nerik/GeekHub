@@ -43,11 +43,10 @@ public class AsyncRssCheck extends AsyncTask<String, Void, Void> {
         } catch (XmlPullParserException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        Log.d("KEDD", "doInBackground RSS check ended. LastBuildDate: "+lastBuildDate);
         return null;
     }
 
-    public InputStream getUrlData(String url)
+    private InputStream getUrlData(String url)
             throws URISyntaxException, IOException {
 
         DefaultHttpClient client = new DefaultHttpClient();
