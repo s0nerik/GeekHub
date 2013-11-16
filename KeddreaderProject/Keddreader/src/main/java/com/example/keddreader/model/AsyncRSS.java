@@ -1,6 +1,7 @@
 package com.example.keddreader.model;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -56,6 +57,10 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
 
                                 case "encoded":
                                     msg.setContent(xpp.nextText());
+                                    break;
+
+                                case "creator":
+                                    msg.setAuthor(xpp.nextText());
                                     break;
 //                                case "link":
 //                                    msg.setLink(xpp.nextText());

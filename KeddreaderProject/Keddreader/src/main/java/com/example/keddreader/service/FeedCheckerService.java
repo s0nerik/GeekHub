@@ -55,8 +55,8 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
             @Override
             public void run() {
                 if(Connectivity.isConnected(FeedCheckerService.this)){
-                    new AsyncRssCheck(FeedCheckerService.this).execute("https://dl.dropboxusercontent.com/u/9689938/test/test_feed.xml");
-//                    new AsyncRssCheck(FeedCheckerService.this).execute("http://keddr.com/feed/");
+//                    new AsyncRssCheck(FeedCheckerService.this).execute("https://dl.dropboxusercontent.com/u/9689938/test/test_feed.xml");
+                    new AsyncRssCheck(FeedCheckerService.this).execute("http://keddr.com/feed/");
                 }
             }
         }, SERVICE_FIRST_START_DELAY, REFRESH_INTERVAL * 60000); // Start task every REFRESH_INTERVAL minutes, first time run it after SERVICE_FIRST_START_DELAY

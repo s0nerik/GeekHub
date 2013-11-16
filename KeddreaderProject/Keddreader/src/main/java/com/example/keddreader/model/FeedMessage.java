@@ -13,7 +13,7 @@ public class FeedMessage {
     private String guid;
     private String pubDate;
     private String content;
-//    private String author;
+    private String author;
 
     public String getTitle() {
         return title;
@@ -80,11 +80,11 @@ public class FeedMessage {
         return content;
     }
 
-//    public String getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(String author) {
-//        this.author = author;
-//    }
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }
