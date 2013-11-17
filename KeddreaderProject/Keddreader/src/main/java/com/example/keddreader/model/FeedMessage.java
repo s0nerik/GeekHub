@@ -53,7 +53,7 @@ public class FeedMessage {
     }
 
     public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
+        this.pubDate = pubDate.substring(5, pubDate.lastIndexOf("+")-1);
     }
 
     public void setContent(String cnt){

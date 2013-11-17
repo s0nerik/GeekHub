@@ -9,6 +9,8 @@ public class Feed {
     private String current_content;
     private String[] titles;
     private String[] contents;
+    private String[] authors;
+    private String[] pubDates;
 
     final ArrayList<FeedMessage> entries = new ArrayList<>();
 
@@ -28,6 +30,14 @@ public class Feed {
         return contents;
     }
 
+    public String[] getAuthors(){
+        return authors;
+    }
+
+    public String[] getPubDates(){
+        return pubDates;
+    }
+
     public void setInnerTitles(){
         String[] titles = new String[entries.size()];
         for (int i=0; i<entries.size(); i++){
@@ -42,6 +52,22 @@ public class Feed {
             contents[i] = entries.get(i).getContent();
         }
         this.contents = contents;
+    }
+
+    public void setInnerAuthors(){
+        String[] authors = new String[entries.size()];
+        for (int i=0; i<entries.size(); i++){
+            authors[i] = entries.get(i).getAuthor();
+        }
+        this.authors = authors;
+    }
+
+    public void setInnerPubDates(){
+        String[] pubDates = new String[entries.size()];
+        for (int i=0; i<entries.size(); i++){
+            pubDates[i] = entries.get(i).getPubDate();
+        }
+        this.pubDates = pubDates;
     }
 
 //    public String[] getTitles(){

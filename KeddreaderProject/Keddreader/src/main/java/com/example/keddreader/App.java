@@ -31,4 +31,11 @@ public class App extends Application {
         ImageLoader.getInstance().init(config);
     }
 
+//    @Override
+//    public void onTerminate(){
+//        ImageLoader.getInstance().clearDiscCache();
+//        ImageLoader.getInstance().clearMemoryCache();
+//        super.onTerminate();
+//    }
+
 }

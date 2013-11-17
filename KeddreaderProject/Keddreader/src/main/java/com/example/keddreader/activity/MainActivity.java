@@ -66,6 +66,8 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
                 if(feedSingleton.feedAvailable()){
 
                     // Feed is not refreshing, so we can set titles and contents
+                    titlesFragment.setSingletonePubDates();
+                    titlesFragment.setSingletoneAuthors();
                     titlesFragment.setSingletoneTitles();
                     titlesFragment.setSingletoneContents();
                 }
@@ -89,6 +91,8 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
     @Override
     public void onFeedParsed(Feed feed){
+        titlesFragment.setSingletonePubDates();
+        titlesFragment.setSingletoneAuthors();
         // Feed singleton is already available, so we can set titles and contents
         titlesFragment.setSingletoneTitles();
         titlesFragment.setSingletoneContents();

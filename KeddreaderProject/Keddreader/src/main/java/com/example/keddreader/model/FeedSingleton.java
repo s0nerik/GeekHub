@@ -31,6 +31,8 @@ public class FeedSingleton implements AsyncFeedGetter {
         this.feed = feed;
         this.feed.setInnerTitles();
         this.feed.setInnerContents();
+        this.feed.setInnerAuthors();
+        this.feed.setInnerPubDates();
         feedAvailable = true;
     }
 

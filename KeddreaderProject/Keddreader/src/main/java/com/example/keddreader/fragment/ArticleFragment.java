@@ -35,9 +35,7 @@ public class ArticleFragment extends BaseFragment {
 
         // If feed is refreshing or the article is not selected show default info page
         if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){
-            if(Connectivity.isConnected(getActivity())){
-                page.loadUrl("file:///android_asset/default.html");
-            }
+            page.loadUrl("file:///android_asset/default.html");
         }
 
     }
