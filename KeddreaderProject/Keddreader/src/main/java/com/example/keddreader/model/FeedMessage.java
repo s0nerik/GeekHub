@@ -3,6 +3,7 @@ package com.example.keddreader.model;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 public class FeedMessage {
@@ -56,8 +57,9 @@ public class FeedMessage {
     }
 
     public void setContent(String cnt){
-        // Replace wrong "//..." src's with "http://" and put it into html
-        content = "<html><head><style type=\"text/css\">img { max-width: 100%; }</style></head><body>"+cnt.replace("src=\"//", "src=\"http://")+"</body></html>";
+        content = "<html><head><style type=\"text/css\">img { max-width: 100%; }</style></head><body>"
+                +cnt
+                +"</body></html>";
         // Parse resulting html
         Document doc = Jsoup.parse(content);
 
@@ -66,14 +68,23 @@ public class FeedMessage {
         imgs.removeAttr("width");
         imgs.removeAttr("height");
 
-        content = doc.html();
+        for(Element e:imgs){
+            e.wrap("<a href=\""+e.attr("src")+"\"></a>");
+        }
 
         // Replace videos with links on these videos
         Elements iframes = doc.body().select("iframe");
+        String src;
         for(Element iframe:iframes){
-            content = content.replace(iframe.outerHtml(), "<a href=\""+iframe.attr("src")+"\">"+"Видео"+"</a>");
-        }
 
+            // Replace wrong "//..." src's with "http://"
+            src = "http:"+iframe.attr("src");
+
+            // Replace iframes with links
+            iframe.replaceWith(new Element(Tag.valueOf("a"), "").attr("href", src).text("Видео"));
+        }
+          
+        content = doc.html();
     }
 
     public String getContent(){

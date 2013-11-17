@@ -83,7 +83,7 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
         }else{
 
             // If last build time isn't equals local last build time, show notification
-            if(!newLastBuildDate.equals(lastBuildDate)){
+            if(newLastBuildDate != null && !newLastBuildDate.equals(lastBuildDate)){
 
                 lastBuildDate = newLastBuildDate;
                 notifyFeedUpdated();

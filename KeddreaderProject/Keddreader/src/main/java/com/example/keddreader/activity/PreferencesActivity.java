@@ -1,13 +1,11 @@
 package com.example.keddreader.activity;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 
 import com.example.keddreader.R;
 import com.example.keddreader.service.FeedCheckerService;
@@ -32,6 +30,7 @@ public class PreferencesActivity extends PreferenceActivity {
         enable_service_chBox.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 check_interval_list.setEnabled(enable_service_chBox.isChecked());
+                enable_service_notification_chBox.setEnabled(enable_service_chBox.isChecked());
                 return false;
             }
         });
