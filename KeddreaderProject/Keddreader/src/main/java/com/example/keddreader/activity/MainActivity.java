@@ -65,11 +65,8 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
                 // Running on the phone, so we need only to update list
                 if(feedSingleton.feedAvailable()){
 
-                    // Feed is not refreshing, so we can set titles and contents
-                    titlesFragment.setSingletonePubDates();
-                    titlesFragment.setSingletoneAuthors();
-                    titlesFragment.setSingletoneTitles();
-                    titlesFragment.setSingletoneContents();
+                    // Feed is not refreshing, so we can set titlesFragment data
+                    titlesFragment.setSingletonData();
                 }
             }
         }
@@ -91,11 +88,8 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
 
     @Override
     public void onFeedParsed(Feed feed){
-        titlesFragment.setSingletonePubDates();
-        titlesFragment.setSingletoneAuthors();
-        // Feed singleton is already available, so we can set titles and contents
-        titlesFragment.setSingletoneTitles();
-        titlesFragment.setSingletoneContents();
+        // Feed singleton is already available, so we can set titlesFragment data
+        titlesFragment.setSingletonData();
     }
 
     @Override

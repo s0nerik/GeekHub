@@ -27,11 +27,7 @@ public class TitlesFragment extends BaseListFragment {
         layoutInflater = inflater;
         if (savedInstanceState != null){
             if(feedSingleton.feedAvailable()){
-                titles = feedSingleton.getFeed().getTitles();
-                contents = feedSingleton.getFeed().getContents();
-                pubDates = feedSingleton.getFeed().getPubDates();
-                authors = feedSingleton.getFeed().getAuthors();
-                setListAdapter(new MyArrayAdapter(getActivity(), titles, pubDates, authors));
+                setSingletonData();
             }
         }
         return inflater.inflate(R.layout.fragment_titles, container, false);
@@ -58,20 +54,27 @@ public class TitlesFragment extends BaseListFragment {
         setListAdapter(null);
     }
 
-    public void setSingletoneTitles(){
+    public void setSingletonData(){
+        setSingletonContents();
+        setSingletonPubDates();
+        setSingletonAuthors();
+        setSingletonTitles();
+    }
+
+    private void setSingletonTitles(){
         titles = feedSingleton.getFeed().getTitles();
         setListAdapter(new MyArrayAdapter(getActivity(), titles, pubDates, authors));
     }
 
-    public void setSingletoneContents(){
+    private void setSingletonContents(){
         contents = feedSingleton.getFeed().getContents();
     }
 
-    public void setSingletonePubDates(){
+    private void setSingletonPubDates(){
         pubDates = feedSingleton.getFeed().getPubDates();
     }
 
-    public void setSingletoneAuthors(){
+    private void setSingletonAuthors(){
         authors = feedSingleton.getFeed().getAuthors();
     }
 
@@ -92,8 +95,6 @@ class MyArrayAdapter extends ArrayAdapter<String> {
         this.authors = authors;
     }
 
-    // Класс для сохранения во внешний класс и для ограничения доступа
-    // из потомков класса
     static class ViewHolder {
         public TextView title;
         public TextView pubDate;
@@ -102,15 +103,12 @@ class MyArrayAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // ViewHolder буферизирует оценку различных полей шаблона элемента
 
         ViewHolder holder;
-        // Очищает сущетсвующий шаблон, если параметр задан
-        // Работает только если базовый шаблон для всех классов один и тот же
+
         View rowView = convertView;
         if (rowView == null) {
             LayoutInflater inflater = TitlesFragment.layoutInflater;
-//            LayoutInflater inflater = context.getLayoutInflater();
             rowView = inflater.inflate(R.layout.list_item, null, true);
             holder = new ViewHolder();
             holder.title = (TextView) rowView.findViewById(R.id.list_item_title);
