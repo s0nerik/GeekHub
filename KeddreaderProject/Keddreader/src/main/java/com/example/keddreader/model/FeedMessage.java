@@ -69,7 +69,7 @@ public class FeedMessage {
         imgs.removeAttr("height");
 
         for(Element e:imgs){
-            e.wrap("<a href=\""+e.attr("src")+"\"></a>");
+            e.wrap("<center><a href=\""+e.attr("src")+"\"></a></center>");
         }
 
         // Replace videos with links on these videos

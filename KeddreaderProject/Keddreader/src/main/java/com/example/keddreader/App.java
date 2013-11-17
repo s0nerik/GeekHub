@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 
 import com.example.keddreader.model.FeedSingleton;
 import com.example.keddreader.service.FeedCheckerService;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class App extends Application {
 
@@ -20,6 +22,13 @@ public class App extends Application {
         }
 
         FeedSingleton.initInstance();
+
+        ImageLoaderConfiguration config =
+                new ImageLoaderConfiguration.Builder(getApplicationContext())
+                        .denyCacheImageMultipleSizesInMemory()
+                        .build();
+
+        ImageLoader.getInstance().init(config);
     }
 
 }

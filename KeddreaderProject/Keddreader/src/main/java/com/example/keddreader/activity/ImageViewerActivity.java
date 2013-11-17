@@ -8,8 +8,8 @@ import android.widget.ProgressBar;
 
 import com.example.keddreader.R;
 import com.example.keddreader.custom_view.TouchImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -29,9 +29,13 @@ public class ImageViewerActivity extends ActionBarActivity {
 
         final ProgressBar spinner = (ProgressBar) findViewById(R.id.image_viewer_spinner);
 
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheOnDisc(true)
+                .cacheInMemory(true)
+                .build();
+
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(this));
-        imageLoader.displayImage(url, imageView,  new ImageLoadingListener() {
+        imageLoader.displayImage(url, imageView, options,  new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
                 spinner.setVisibility(View.VISIBLE);
@@ -52,5 +56,4 @@ public class ImageViewerActivity extends ActionBarActivity {
             }
         });
     }
-
 }
