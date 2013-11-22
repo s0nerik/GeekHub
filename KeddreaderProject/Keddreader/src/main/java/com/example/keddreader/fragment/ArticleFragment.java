@@ -31,7 +31,12 @@ public class ArticleFragment extends BaseFragment {
 
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
         WebSettings settings = page.getSettings();
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+//        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if ( !Connectivity.isConnected(getActivity()) ) { // loading offline
+            settings.setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+        }else{
+            settings.setCacheMode( WebSettings.LOAD_DEFAULT );
+        }
 
         // If feed is refreshing or the article is not selected show default info page
         if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){

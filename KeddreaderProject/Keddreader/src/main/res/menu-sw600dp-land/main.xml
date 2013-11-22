@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/action_save_to_fav"
+        android:icon="@drawable/ic_action_not_important"
+        app:showAsAction="always"
+        android:visible="false" />
+
     <item android:id="@+id/action_refresh"
         android:icon="@drawable/ic_action_refresh"
         app:showAsAction="always" />

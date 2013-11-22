@@ -2,14 +2,20 @@ package com.example.keddreader;
 
 import android.app.Application;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
+import com.example.keddreader.helper.FavDbHelper;
 import com.example.keddreader.model.FeedSingleton;
 import com.example.keddreader.service.FeedCheckerService;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class App extends Application {
+
+    public static FavDbHelper favDbHelper;
+    public static SQLiteDatabase writableFavDB;
+    public static SQLiteDatabase readableFavDB;
 
     @Override
     public void onCreate() {
@@ -29,6 +35,10 @@ public class App extends Application {
                         .build();
 
         ImageLoader.getInstance().init(config);
+
+        favDbHelper = new FavDbHelper(this);
+        writableFavDB = favDbHelper.getWritableDatabase();
+        readableFavDB = favDbHelper.getReadableDatabase();
     }
 
 //    @Override
