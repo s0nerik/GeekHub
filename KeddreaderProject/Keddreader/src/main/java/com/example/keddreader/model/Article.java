@@ -6,15 +6,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
-public class FeedMessage {
+public class Article {
 
     private String title;
-    private String description;
-    private String link;
-    private String guid;
-    private String pubDate;
     private String content;
+    private String pubDate;
     private String author;
+
+    public Article(){}
+
+    public Article(String title, String content, String pubDate, String author){
+        this.title = title;
+        this.content = content;
+        this.pubDate = pubDate;
+        this.author = author;
+    }
 
     public String getTitle() {
         return title;
@@ -22,30 +28,6 @@ public class FeedMessage {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
     }
 
     public String getPubDate() {

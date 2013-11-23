@@ -3,6 +3,8 @@
 
     <string name="app_name">Keddreader</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <string-array name="interval_settings_entries">
         <item>1 minute</item>

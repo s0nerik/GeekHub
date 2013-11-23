@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 public class AsyncRSS extends AsyncTask<String, Void, Feed>{
 
     Feed feed = new Feed();
-    FeedMessage msg;
+    Article msg;
 
     AsyncFeedGetter caller;
     FeedSingleton feedSingleton;
@@ -44,7 +44,7 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
                     // Current tag is <item>, so start parsing feed message
                     xpp.next();
                     name = xpp.getName();
-                    msg = new FeedMessage();
+                    msg = new Article();
                     while (!"item".equals(name)){
                         // Parse message while </item> not met
                         if(name != null){

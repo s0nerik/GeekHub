@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 public class AsyncRssCheck extends AsyncTask<String, Void, Void> {
 
     AsyncFeedChecker caller;
-    String lastBuildDate;
+    String lastPubDate;
 
     public AsyncRssCheck(AsyncFeedChecker caller){
         this.caller = caller;
@@ -37,8 +37,8 @@ public class AsyncRssCheck extends AsyncTask<String, Void, Void> {
             xpp.setInput(new InputStreamReader(getUrlData(params[0])));
             do{
                 xpp.next();
-            }while(!"lastBuildDate".equals(xpp.getName()));
-            lastBuildDate = xpp.nextText();
+            }while(!"pubDate".equals(xpp.getName()));
+            lastPubDate = xpp.nextText();
 
         } catch (XmlPullParserException | IOException | URISyntaxException e) {
             e.printStackTrace();
@@ -59,7 +59,7 @@ public class AsyncRssCheck extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void a) {
         super.onPostExecute(a);
-        caller.onFeedChecked(lastBuildDate);
+        caller.onFeedChecked(lastPubDate);
     }
 
 }

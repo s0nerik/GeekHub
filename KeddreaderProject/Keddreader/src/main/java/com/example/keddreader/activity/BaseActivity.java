@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.example.keddreader.App;
 import com.example.keddreader.R;
-import com.example.keddreader.model.Feed;
 import com.example.keddreader.model.FeedSingleton;
 
 public class BaseActivity extends ActionBarActivity {
@@ -24,8 +23,7 @@ public class BaseActivity extends ActionBarActivity {
 
     protected boolean currentArticleIsFav(){
         return feedSingleton.feedAvailable() &&
-                feedSingleton.getFeed().getCurrentTitle() != null &&
-                App.favDbHelper.isFav(feedSingleton.getFeed().getCurrentTitle());
+                feedSingleton.getCurrentArticle().getTitle() != null &&
+                App.favDbHelper.isFav(feedSingleton.getCurrentArticle());
     }
-
 }

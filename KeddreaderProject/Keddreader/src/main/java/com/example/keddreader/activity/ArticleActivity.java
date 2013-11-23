@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import com.example.keddreader.App;
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
-import com.example.keddreader.model.Feed;
+import com.example.keddreader.model.Article;
 
 public class ArticleActivity extends BaseActivity {
 
@@ -19,7 +19,7 @@ public class ArticleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        String title = feedSingleton.getFeed().getCurrentTitle();
+        String title = feedSingleton.getCurrentArticle().getTitle();
 
         if(isTabletLand()){
             // Tablet is rotated to landscape mode, so show main activity
@@ -61,24 +61,22 @@ public class ArticleActivity extends BaseActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_save_to_fav:
-                addFavorite(item);
+                toggleFavorite(item);
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void addFavorite(MenuItem item){
+    public void toggleFavorite(MenuItem item){
 
+        Article currentArticle = feedSingleton.getCurrentArticle();
         if(!currentArticleIsFav()){
             item.setIcon(R.drawable.ic_action_important);
-            App.favDbHelper.addFav(feedSingleton.getFeed().getCurrentTitle(),
-                                   feedSingleton.getFeed().getCurrentContent(),
-                                   feedSingleton.getFeed().getCurrentAuthor(),
-                                   feedSingleton.getFeed().getCurrentPubDate() );
+            App.favDbHelper.addFav(currentArticle);
         }else{
             item.setIcon(R.drawable.ic_action_not_important);
-            App.favDbHelper.removeFav(feedSingleton.getFeed().getCurrentTitle());
+            App.favDbHelper.removeFav(currentArticle);
         }
 
     }

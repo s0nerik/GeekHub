@@ -41,11 +41,4 @@ public class App extends Application {
         readableFavDB = favDbHelper.getReadableDatabase();
     }
 
-//    @Override
-//    public void onTerminate(){
-//        ImageLoader.getInstance().clearDiscCache();
-//        ImageLoader.getInstance().clearMemoryCache();
-//        super.onTerminate();
-//    }
-
 }

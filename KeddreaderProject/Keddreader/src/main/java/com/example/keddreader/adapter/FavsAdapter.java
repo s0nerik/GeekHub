@@ -10,17 +10,11 @@ import android.widget.TextView;
 
 import com.example.keddreader.R;
 
-public class MyCursorAdapter extends CursorAdapter {
+public class FavsAdapter extends CursorAdapter {
 
-    public MyCursorAdapter(Context context, Cursor c) {
+    public FavsAdapter(Context context, Cursor c) {
         super(context, c);
     }
-
-//    static class ViewHolder {
-//        public TextView title;
-//        public TextView pubDate;
-//        public TextView author;
-//    }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -31,31 +25,6 @@ public class MyCursorAdapter extends CursorAdapter {
 
         return retView;
     }
-
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//
-//        ViewHolder holder;
-//
-//        View rowView = convertView;
-//        if (rowView == null) {
-//            LayoutInflater inflater = TitlesFragment.layoutInflater;
-//            rowView = inflater.inflate(R.layout.list_item, null, true);
-//            holder = new ViewHolder();
-//            holder.title = (TextView) rowView.findViewById(R.id.list_item_title);
-//            holder.pubDate = (TextView) rowView.findViewById(R.id.list_item_pub_date);
-//            holder.author = (TextView) rowView.findViewById(R.id.list_item_author);
-//            rowView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) rowView.getTag();
-//        }
-//
-//        holder.title.setText(titles[position]);
-//        holder.pubDate.setText(pubDates[position]);
-//        holder.author.setText(authors[position]);
-//
-//        return rowView;
-//    }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {

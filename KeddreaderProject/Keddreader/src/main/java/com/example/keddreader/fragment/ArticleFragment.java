@@ -39,7 +39,7 @@ public class ArticleFragment extends BaseFragment {
         }
 
         // If feed is refreshing or the article is not selected show default info page
-        if(!feedSingleton.feedAvailable() || feedSingleton.getFeed().getCurrentContent() == null){
+        if(!feedSingleton.feedAvailable() || feedSingleton.getCurrentArticle() == null){
             page.loadUrl("file:///android_asset/default.html");
         }
 
@@ -55,7 +55,7 @@ public class ArticleFragment extends BaseFragment {
     public void setSingletonCurrentContent(){
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
         page.setWebViewClient(new MyWebViewClient());
-        page.loadDataWithBaseURL(null, feedSingleton.getFeed().getCurrentContent(), "text/html", "UTF-8", null);
+        page.loadDataWithBaseURL(null, feedSingleton.getCurrentArticle().getContent(), "text/html", "UTF-8", null);
     }
 
     public void setEmpty(){

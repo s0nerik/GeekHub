@@ -4,6 +4,7 @@ public class FeedSingleton implements AsyncFeedGetter {
     private static volatile FeedSingleton instance;
     private Feed feed;
     private boolean feedAvailable = false;
+    private Article currentArticle;
 
     public static FeedSingleton getInstance(){
         return instance;
@@ -11,6 +12,14 @@ public class FeedSingleton implements AsyncFeedGetter {
 
     public static void initInstance(){
         instance = new FeedSingleton();
+    }
+
+    public Article getCurrentArticle(){
+        return currentArticle;
+    }
+
+    public void setCurrentArticle(Article article){
+        currentArticle = article;
     }
 
     public Feed getFeed(){
@@ -29,10 +38,7 @@ public class FeedSingleton implements AsyncFeedGetter {
     @Override
     public void onFeedParsed(Feed feed) {
         this.feed = feed;
-        this.feed.setInnerTitles();
-        this.feed.setInnerContents();
-        this.feed.setInnerAuthors();
-        this.feed.setInnerPubDates();
+        feed.setInnerData();
         feedAvailable = true;
     }
 

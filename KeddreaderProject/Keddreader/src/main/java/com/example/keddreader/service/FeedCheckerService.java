@@ -28,7 +28,7 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
     private static final long SERVICE_FIRST_START_DELAY = 10000L; // This is 10 seconds, which equals 10000 milliseconds
     private static int REFRESH_INTERVAL;
     private boolean runningFirstTime = true;
-    private static String lastBuildDate;
+    private static String lastPubDate;
     public static NotificationManager notificationManager;
     private SharedPreferences sharedPreferences;
     private Timer timer = new Timer();
@@ -78,14 +78,14 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
     public void onFeedChecked(String newLastBuildDate) {
 
         if(runningFirstTime){
-            lastBuildDate = newLastBuildDate;
+            lastPubDate = newLastBuildDate;
             runningFirstTime = false;
         }else{
 
             // If last build time isn't equals local last build time, show notification
-            if(newLastBuildDate != null && !newLastBuildDate.equals(lastBuildDate)){
+            if(newLastBuildDate != null && !newLastBuildDate.equals(lastPubDate)){
 
-                lastBuildDate = newLastBuildDate;
+                lastPubDate = newLastBuildDate;
                 notifyFeedUpdated();
 
             }
@@ -101,7 +101,7 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
                         .setContentTitle("Keddr.com updated.")
                         .setTicker("Keddr.com updated.")
                         .setAutoCancel(true)
-                        .setContentText("Last update date: " + lastBuildDate);
+                        .setContentText("Last update date: " + lastPubDate);
 
         // Create intent which will start main activity when notification is clicked
         Intent resultIntent = new Intent(this, MainActivity.class);
