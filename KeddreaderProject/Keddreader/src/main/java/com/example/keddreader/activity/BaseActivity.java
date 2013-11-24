@@ -22,8 +22,7 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     protected boolean currentArticleIsFav(){
-        return feedSingleton.feedAvailable() &&
-                feedSingleton.getCurrentArticle().getTitle() != null &&
-                App.favDbHelper.isFav(feedSingleton.getCurrentArticle());
+        return feedSingleton.getCurrentArticle() != null && App.favDbHelper.isFav(feedSingleton.getCurrentArticle());
     }
+
 }

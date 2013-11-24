@@ -9,34 +9,46 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.keddreader.R;
+import com.example.keddreader.helper.FavDbHelper;
 
 public class FavsAdapter extends CursorAdapter {
 
+    private final Context context;
+
     public FavsAdapter(Context context, Cursor c) {
         super(context, c);
+        this.context = context;
+    }
+
+    static class ViewHolder {
+        public TextView title;
+        public TextView pubDate;
+        public TextView author;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        // when the view will be created for first time,
-        // we need to tell the adapters, how each item will look
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View retView = inflater.inflate(R.layout.list_item, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(this.context);
+        View rowView = inflater.inflate(R.layout.list_item, null, false);
 
-        return retView;
+        ViewHolder holder = new ViewHolder();
+        holder.title = (TextView) rowView.findViewById(R.id.list_item_title);
+        holder.author = (TextView) rowView.findViewById(R.id.list_item_author);
+        holder.pubDate = (TextView) rowView.findViewById(R.id.list_item_pub_date);
+        rowView.setTag(holder);
+
+        return rowView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // here we are setting our data
-        // that means, take the data from the cursor and put it in views
-        TextView title = (TextView) view.findViewById(R.id.list_item_title);
-        title.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(1))));
+        ViewHolder holder = (ViewHolder) view.getTag();
 
-        TextView date = (TextView) view.findViewById(R.id.list_item_pub_date);
-        date.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(3))));
+        holder.title.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(FavDbHelper.TITLE_ID))));
 
-        TextView author = (TextView) view.findViewById(R.id.list_item_author);
-        author.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(4))));
+        holder.pubDate.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(FavDbHelper.DATE_ID))));
+
+        holder.author.setText(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnName(FavDbHelper.AUTHOR_ID))));
     }
+
 }

@@ -10,40 +10,21 @@
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:orientation="vertical" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:background="@drawable/menu_dropdown_panel_keddr">
-            <ImageView
-                android:id="@+id/all_articles_toggle"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_action_view_as_list"
-                android:onClick="onListIconClick"
-                android:background="@drawable/list_focused_keddr" />
-            <ImageView
-                android:id="@+id/fav_articles_toggle"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_action_important"
-                android:onClick="onFavIconClick"
-                android:background="@drawable/ab_solid_keddr" />
-        </LinearLayout>
+
         <fragment
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:id="@+id/titles_fragment"
             android:name="com.example.keddreader.fragment.TitlesFragment"
             tools:layout="@layout/fragment_titles" />
+
         <fragment
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:id="@+id/fav_fragment"
             android:name="com.example.keddreader.fragment.FavFragment"
-            tools:layout="@layout/fragment_titles" />
+            tools:layout="@layout/fragment_fav" />
+
     </LinearLayout>
 
     <LinearLayout

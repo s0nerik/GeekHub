@@ -17,8 +17,6 @@ import com.example.keddreader.model.Feed;
 
 public class TitlesFragment extends BaseListFragment {
 
-//    private String[] titles;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -14,4 +14,11 @@
         android:name="com.example.keddreader.fragment.TitlesFragment"
         tools:layout="@layout/fragment_titles" />
 
+    <fragment
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/fav_fragment"
+        android:name="com.example.keddreader.fragment.FavFragment"
+        tools:layout="@layout/fragment_fav" />
+
 </LinearLayout>

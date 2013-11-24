@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity$TitlesFragment">
+    tools:context=".MainActivity$FavFragment">
 
     <ListView
         android:id="@id/android:list"
@@ -26,12 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/imageView"
-            android:src="@drawable/ic_action_about" />
+            android:src="@drawable/ic_action_about_big" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There's no favorites yet."
+            android:layout_gravity="center"
+            android:text="No items yet"
             android:id="@+id/textView" />
     </LinearLayout>
 

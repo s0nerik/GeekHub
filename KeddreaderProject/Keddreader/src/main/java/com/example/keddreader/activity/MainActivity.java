@@ -4,20 +4,26 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.keddreader.App;
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
 import com.example.keddreader.fragment.FavFragment;
+import com.example.keddreader.fragment.NoConnectionFragment;
+import com.example.keddreader.fragment.RefreshFragment;
 import com.example.keddreader.fragment.TitlesFragment;
 import com.example.keddreader.model.Article;
 import com.example.keddreader.model.AsyncFeedGetter;
+import com.example.keddreader.model.Connectivity;
 import com.example.keddreader.model.Feed;
 
-public class MainActivity extends BaseActivity implements AsyncFeedGetter{
+public class MainActivity extends BaseActivity implements AsyncFeedGetter, ActionBar.OnNavigationListener{
 
     private String current_content;
     private static TitlesFragment titlesFragment;
@@ -25,17 +31,20 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
     private static ArticleFragment article;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     public static MenuItem favIcon;
+    private ActionBar actionBar;
+    private int spinnerPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        titlesFragment = (TitlesFragment) fragmentManager.findFragmentById(R.id.titles_fragment);
-        favFragment = (FavFragment) fragmentManager.findFragmentById(R.id.fav_fragment);
+        findFragments();
 
         if(isTabletLand())
             article = (ArticleFragment) fragmentManager.findFragmentById(R.id.article_fragment);
+
+        initActionBar();
 
         if(savedInstanceState == null){
 
@@ -48,8 +57,11 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
                     .commit();
 
         }else{ // Screen rotated
-            if (isTablet()){
 
+            // Restore a spinner state
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt("spinner_position"));
+
+            if (isTablet()){
                 // Get current content if feed is not refreshing
                 if(feedSingleton.feedAvailable() && feedSingleton.getCurrentArticle() != null)
                     current_content = feedSingleton.getCurrentArticle().getContent();
@@ -86,6 +98,12 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
                 }
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("spinner_position", spinnerPosition);
     }
 
     @Override
@@ -136,13 +154,48 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
         titlesFragment.setSingletonData();
     }
 
+    private void initActionBar(){
+        actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setDisplayShowTitleEnabled(false);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                actionBar.getThemedContext(),
+                R.array.spinner_names,
+                R.layout.actionbar_spinner_item);
+        adapter.setDropDownViewResource(R.layout.actionbar_spinner_dropdown_item);
+        actionBar.setListNavigationCallbacks(adapter, this);
+    }
+
+    private void findFragments(){
+        titlesFragment = (TitlesFragment) fragmentManager.findFragmentById(R.id.titles_fragment);
+        favFragment = (FavFragment) fragmentManager.findFragmentById(R.id.fav_fragment);
+    }
+
     private void updateRSS(){
 
-        // Set titles fragment empty to show spinner while feed not loaded
-        titlesFragment.setEmpty();
+        if(!Connectivity.isConnected(this)){ // No Internet connection
 
-        // Actually refresh the feed
-        loadRSS();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(this, "No Internet connection.", duration);
+            toast.show();
+
+        }else{ // Internet connection exists
+
+            // Set titles fragment empty to show spinner while feed not loaded
+            titlesFragment.setEmpty();
+
+            // find fragments
+            RefreshFragment refreshFragment = (RefreshFragment) fragmentManager.findFragmentById(R.id.refresh_fragment);
+            NoConnectionFragment noConnectionFragment = (NoConnectionFragment) fragmentManager.findFragmentById(R.id.no_connection_fragment);
+
+            // Show progress bar
+            refreshFragment.getView().setVisibility(View.VISIBLE);
+            noConnectionFragment.getView().setVisibility(View.GONE);
+
+            // Actually refresh the feed
+            loadRSS();
+        }
+
     }
 
     private void loadRSS(){
@@ -166,32 +219,26 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter{
         favFragment.setDataFromFavDb();
     }
 
-    public void onFavIconClick(View favToggle){
-        // Hide titles fragment and show favorites fragment instead
-        fragmentManager.beginTransaction()
-                .hide(getSupportFragmentManager().findFragmentById(R.id.titles_fragment))
-                .show(getSupportFragmentManager().findFragmentById(R.id.fav_fragment))
-                .commit();
-
-        View listToggle = findViewById(R.id.all_articles_toggle);
-
-        // Set favorites selector active
-        listToggle.setBackgroundResource(android.R.color.transparent);
-        favToggle.setBackgroundResource(R.drawable.list_focused_keddr);
+    @Override
+    public boolean onNavigationItemSelected(int position, long id) {
+        switch(position){
+            case 0: // All articles
+                spinnerPosition = 0;
+                fragmentManager.beginTransaction()
+                        .show(titlesFragment)
+                        .hide(favFragment)
+                        .commit();
+                return true;
+            case 1: // Favorite articles
+                spinnerPosition = 1;
+                favFragment.setDataFromFavDb();
+                fragmentManager.beginTransaction()
+                        .show(favFragment)
+                        .hide(titlesFragment)
+                        .commit();
+                return true;
+            default:
+                return false;
+        }
     }
-
-    public void onListIconClick(View listToggle){
-        // Hide favorites fragment and show titles fragment instead
-        fragmentManager.beginTransaction()
-                .hide(getSupportFragmentManager().findFragmentById(R.id.fav_fragment))
-                .show(getSupportFragmentManager().findFragmentById(R.id.titles_fragment))
-                .commit();
-
-        View favToggle = findViewById(R.id.fav_articles_toggle);
-
-        // Set titles selector active
-        favToggle.setBackgroundResource(android.R.color.transparent);
-        listToggle.setBackgroundResource(R.drawable.list_focused_keddr);
-    }
-
 }

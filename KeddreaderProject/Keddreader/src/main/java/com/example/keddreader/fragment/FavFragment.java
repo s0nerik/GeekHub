@@ -22,7 +22,9 @@ public class FavFragment extends BaseListFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setDataFromFavDb();
+        if(savedInstanceState == null){
+            setDataFromFavDb();
+        }
         return inflater.inflate(R.layout.fragment_fav, container, false);
     }
 

@@ -39,7 +39,7 @@ public class ArticleFragment extends BaseFragment {
         }
 
         // If feed is refreshing or the article is not selected show default info page
-        if(!feedSingleton.feedAvailable() || feedSingleton.getCurrentArticle() == null){
+        if((!feedSingleton.feedAvailable() || feedSingleton.getCurrentArticle() == null) && !currentArticleIsFav()){
             page.loadUrl("file:///android_asset/default.html");
         }
 
@@ -84,6 +84,11 @@ public class ArticleFragment extends BaseFragment {
                 view.getContext().startActivity(intent);
             }
             return true;
+        }
+
+        @Override
+        public void onLoadResource(WebView view, String url){
+            Log.d("KEDD", "Image at "+url+" is loading...");
         }
 
     }

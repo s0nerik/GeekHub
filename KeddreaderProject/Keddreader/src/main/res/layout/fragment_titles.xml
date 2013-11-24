@@ -13,11 +13,11 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@id/android:empty"
-        android:layout_centerInParent="true" />
+        android:name="com.example.keddreader.fragment.EmptyListFragment"
+        tools:layout="@layout/fragment_empty_list" />
 
 </RelativeLayout>

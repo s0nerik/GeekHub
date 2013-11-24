@@ -24,4 +24,9 @@
         <item>360</item>
     </string-array>
 
+    <string-array name="spinner_names">
+        <item>All articles</item>
+        <item>Favorite articles</item>
+    </string-array>
+
 </resources>
