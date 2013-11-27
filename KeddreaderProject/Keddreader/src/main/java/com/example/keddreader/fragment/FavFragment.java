@@ -12,7 +12,6 @@ import com.example.keddreader.R;
 import com.example.keddreader.activity.ArticleActivity;
 import com.example.keddreader.activity.MainActivity;
 import com.example.keddreader.adapter.FavsAdapter;
-import com.example.keddreader.helper.FavDbHelper;
 import com.example.keddreader.model.Article;
 
 public class FavFragment extends BaseListFragment{
@@ -40,6 +39,7 @@ public class FavFragment extends BaseListFragment{
         Boolean isFav = App.favDbHelper.isFav(article);
 
         if(isTabletLand()){
+
             // Find article fragment and set it's content to current article
             ArticleFragment articleFragment = (ArticleFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
             articleFragment.setSingletonCurrentContent();
@@ -64,19 +64,16 @@ public class FavFragment extends BaseListFragment{
 
     }
 
-    public void setEmpty(){
-        setListAdapter(null);
-    }
-
     public void unselectCurrent(){
         getListView().clearChoices();
     }
 
     public void setDataFromFavDb(){
-        FavDbHelper helper = App.favDbHelper;
-        titles = helper.getFavTitles();
-        setListAdapter(new FavsAdapter(getActivity(), helper.getFavs()));
+
+        // Titles are needed in order to distinguish articles
+        titles = App.favDbHelper.getFavTitles();
+
+        setListAdapter(new FavsAdapter(getActivity(), App.favDbHelper.getFavs()));
     }
 
 }
-

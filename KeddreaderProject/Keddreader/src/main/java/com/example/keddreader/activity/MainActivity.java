@@ -103,6 +103,8 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        // Save spinner position to restore current position after screen rotation
         outState.putInt("spinner_position", spinnerPosition);
     }
 
@@ -134,13 +136,16 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+
             case R.id.action_settings:
                 Intent intent = new Intent(this, PreferencesActivity.class);
                 startActivity(intent);
                 return true;
+
             case R.id.action_refresh:
                 updateRSS();
                 return true;
+
             case R.id.action_save_to_fav:
                 toggleFavorite(item);
                 return true;
@@ -222,6 +227,7 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
     @Override
     public boolean onNavigationItemSelected(int position, long id) {
         switch(position){
+
             case 0: // All articles
                 spinnerPosition = 0;
                 fragmentManager.beginTransaction()
@@ -229,9 +235,12 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
                         .hide(favFragment)
                         .commit();
                 return true;
+
             case 1: // Favorite articles
                 spinnerPosition = 1;
+
                 favFragment.setDataFromFavDb();
+
                 fragmentManager.beginTransaction()
                         .show(favFragment)
                         .hide(titlesFragment)

@@ -58,7 +58,6 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
             @Override
             public void run() {
                 if(Connectivity.isConnected(FeedCheckerService.this)){
-//                    new AsyncRssCheck(FeedCheckerService.this).execute("https://dl.dropboxusercontent.com/u/9689938/test/test_feed.xml");
                     new AsyncRssCheck(FeedCheckerService.this).execute("http://keddr.com/feed/");
                 }
             }

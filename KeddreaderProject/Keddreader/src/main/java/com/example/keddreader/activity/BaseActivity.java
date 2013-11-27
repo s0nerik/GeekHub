@@ -1,6 +1,7 @@
 package com.example.keddreader.activity;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 
 import com.example.keddreader.App;

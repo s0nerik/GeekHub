@@ -31,10 +31,9 @@ public class ArticleFragment extends BaseFragment {
 
         page = (WebView) getActivity().findViewById(R.id.article_WebView);
         WebSettings settings = page.getSettings();
-//        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         if ( !Connectivity.isConnected(getActivity()) ) { // loading offline
             settings.setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
-        }else{
+        }else{ // Loading online
             settings.setCacheMode( WebSettings.LOAD_DEFAULT );
         }
 
@@ -58,17 +57,13 @@ public class ArticleFragment extends BaseFragment {
         page.loadDataWithBaseURL(null, feedSingleton.getCurrentArticle().getContent(), "text/html", "UTF-8", null);
     }
 
-    public void setEmpty(){
-        page.loadUrl("file:///android_asset/default.html");
-    }
-
     public class MyWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
             String type = url.substring(url.lastIndexOf("."));
-            Log.d("KEDD", "Link type is: " + type);
+//            Log.d("KEDD", "Link type is: " + type);
             if(    ".jpg".equals(type)
                 || ".jpeg".equals(type)
                 || ".png".equals(type)){
@@ -86,10 +81,10 @@ public class ArticleFragment extends BaseFragment {
             return true;
         }
 
-        @Override
-        public void onLoadResource(WebView view, String url){
-            Log.d("KEDD", "Image at "+url+" is loading...");
-        }
+//        @Override
+//        public void onLoadResource(WebView view, String url){
+//            Log.d("KEDD", "Image at "+url+" is loading...");
+//        }
 
     }
 
