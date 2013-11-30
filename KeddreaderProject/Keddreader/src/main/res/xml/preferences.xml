@@ -12,6 +12,7 @@
             android:title="Enable service?">
         </CheckBoxPreference>
         <CheckBoxPreference
+            android:dependency="service_enabled"
             android:key="service_notification_enabled"
             android:defaultValue="true"
             android:summary="Notification will be shown while service is running"

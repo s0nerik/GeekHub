@@ -4,4 +4,8 @@
         android:icon="@drawable/ic_action_not_important"
         app:showAsAction="always"
         android:visible="true" />
+    <item android:id="@+id/action_share"
+        android:icon="@drawable/ic_action_share"
+        app:showAsAction="always"
+        android:visible="true" />
 </menu>

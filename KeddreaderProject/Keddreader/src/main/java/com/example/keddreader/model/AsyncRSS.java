@@ -65,16 +65,6 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
                                 case "pubDate":
                                     msg.setPubDate(xpp.nextText());
                                     break;
-
-//                                case "link":
-//                                    msg.setLink(xpp.nextText());
-//                                    break;
-//                                case "guid":
-//                                    msg.setGuid(xpp.nextText());
-//                                    break;
-//                                case "description":
-//                                    msg.setDescription(xpp.nextText());
-//                                    break;
                             }
                         }
                         xpp.next();

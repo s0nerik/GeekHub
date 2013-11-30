@@ -8,7 +8,7 @@
     android:checkMark="@null"
     android:orientation="vertical" >
 
-    <CheckedTextView
+    <TextView
         android:id="@+id/list_item_title"
         android:checkMark="@null"
         android:padding="6dp"
@@ -28,10 +28,9 @@
         android:orientation="horizontal"
         android:layout_gravity="bottom" >
 
-        <CheckedTextView
+        <TextView
             android:id="@+id/list_item_pub_date"
             android:checkMark="@null"
-            android:background="@drawable/list_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,10 +39,9 @@
             android:fontFamily="sans-serif"
             android:gravity="start" />
 
-        <CheckedTextView
+        <TextView
             android:id="@+id/list_item_author"
             android:checkMark="@null"
-            android:background="@drawable/list_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

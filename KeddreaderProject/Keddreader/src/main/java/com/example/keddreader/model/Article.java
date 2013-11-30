@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 public class Article {
@@ -39,19 +40,28 @@ public class Article {
     }
 
     public void setContent(String cnt){
-        content = "<html><head><style type=\"text/css\">img { max-width: 100%; }</style></head><body>"
-                +cnt
-                +"</body></html>";
-        // Parse resulting html
-        Document doc = Jsoup.parse(content);
 
-        // Remove "width" and "height" attributes of images to make them fit the screen
+        // Set tags that we need
+        Whitelist whitelist = new Whitelist();
+        whitelist.addTags("img", "a", "h2", "p", "li", "ul");
+        whitelist.addAttributes("a", "href");
+        whitelist.addAttributes("img", "src");
+        whitelist.addAttributes("iframe", "src");
+
+        // Let's remove all unnecessary tags and attributes
+        cnt = Jsoup.clean(cnt, whitelist);
+
+        // Parse (invalid) content html
+        // Jsoup will automatically make HTML valid
+        Document doc = Jsoup.parse(cnt);
+
         Elements imgs = doc.body().select("img");
-        imgs.removeAttr("width");
-        imgs.removeAttr("height");
 
+        // Wrap images, that isn't already inside <a></a> for viewing them in image viewer
         for(Element e:imgs){
-            e.wrap("<center><a href=\""+e.attr("src")+"\"></a></center>");
+            if(!"a".equals(e.parent().tagName())){
+                e.wrap("<a href=\""+e.attr("src")+"\"></a>");
+            }
         }
 
         // Replace videos with links on these videos
@@ -59,13 +69,16 @@ public class Article {
         String src;
         for(Element iframe:iframes){
 
-            // Replace wrong "//..." src's with "http://"
+            // Replace wrong( in Android :) ) "//..." src's with "http://"
             src = "http:"+iframe.attr("src");
 
-            // Replace iframes with links
-            iframe.replaceWith(new Element(Tag.valueOf("a"), "").attr("href", src).text("Видео"));
+            // Replace iframes with images
+            iframe.replaceWith(new Element(Tag.valueOf("a"), "").attr("href", src).append("<img src=\"file:///android_asset/video_icon.png\" />"));
         }
-          
+
+        // Fit screen's width and center all images
+        doc.head().append("<style type=\"text/css\">img { max-width: 100%; display: block; margin-left: auto; margin-right: auto }</style>");
+
         content = doc.html();
     }
 
