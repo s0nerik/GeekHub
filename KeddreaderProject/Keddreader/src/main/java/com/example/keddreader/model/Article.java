@@ -36,7 +36,7 @@ public class Article {
     }
 
     public void setPubDate(String pubDate) {
-        this.pubDate = pubDate.substring(5, pubDate.lastIndexOf("+")-1);
+        this.pubDate = pubDate.substring(5, pubDate.lastIndexOf(":"));
     }
 
     public void setContent(String cnt){
