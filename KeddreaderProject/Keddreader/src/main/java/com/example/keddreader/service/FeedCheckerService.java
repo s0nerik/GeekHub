@@ -126,7 +126,7 @@ public class FeedCheckerService extends Service implements AsyncFeedChecker {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setOngoing(true)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_notification_keddr)
                         .setContentTitle("Keddr.com checker is running...")
                         .setContentText("Click here to turn it off");
 
