@@ -1,19 +1,16 @@
 package com.example.keddreader.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.keddreader.App;
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
-import com.example.keddreader.model.Article;
 
 public class ArticleActivity extends BaseActivity {
 
-    MenuItem favIcon;
+    private MenuItem favIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

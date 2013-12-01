@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.support.v4.app.ListFragment;
 
 import com.example.keddreader.R;
-import com.example.keddreader.model.Feed;
 import com.example.keddreader.model.FeedSingleton;
 
 public class BaseListFragment extends ListFragment {

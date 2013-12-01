@@ -17,11 +17,11 @@ import java.net.URISyntaxException;
 
 public class AsyncRSS extends AsyncTask<String, Void, Feed>{
 
-    Feed feed = new Feed();
-    Article msg;
+    private Feed feed = new Feed();
+    private Article msg;
 
-    AsyncFeedGetter caller;
-    FeedSingleton feedSingleton;
+    private AsyncFeedGetter caller;
+    private FeedSingleton feedSingleton;
 
     public AsyncRSS(AsyncFeedGetter caller, FeedSingleton fs){
         this.caller = caller;
@@ -86,7 +86,7 @@ public class AsyncRSS extends AsyncTask<String, Void, Feed>{
         return feed;
     }
 
-    public InputStream getUrlData(String url)
+    InputStream getUrlData(String url)
             throws URISyntaxException, IOException {
 
         DefaultHttpClient client = new DefaultHttpClient();

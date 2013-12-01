@@ -1,7 +1,6 @@
 package com.example.keddreader.model;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -18,8 +17,8 @@ import java.net.URISyntaxException;
 
 public class AsyncRssCheck extends AsyncTask<String, Void, Void> {
 
-    AsyncFeedChecker caller;
-    String lastPubDate;
+    private AsyncFeedChecker caller;
+    private String lastPubDate;
 
     public AsyncRssCheck(AsyncFeedChecker caller){
         this.caller = caller;

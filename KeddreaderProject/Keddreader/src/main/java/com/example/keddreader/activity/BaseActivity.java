@@ -2,7 +2,6 @@ package com.example.keddreader.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 

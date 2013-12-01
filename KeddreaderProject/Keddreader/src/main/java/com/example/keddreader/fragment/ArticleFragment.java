@@ -3,7 +3,6 @@ package com.example.keddreader.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,13 +56,13 @@ public class ArticleFragment extends BaseFragment {
         page.loadDataWithBaseURL(null, feedSingleton.getCurrentArticle().getContent(), "text/html", "UTF-8", null);
     }
 
-    public class MyWebViewClient extends WebViewClient {
+    private class MyWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
             String type = url.substring(url.lastIndexOf("."));
-//            Log.d("KEDD", "Link type is: " + type);
+
             if(    ".jpg".equals(type)
                 || ".jpeg".equals(type)
                 || ".png".equals(type)){
@@ -80,11 +79,6 @@ public class ArticleFragment extends BaseFragment {
             }
             return true;
         }
-
-//        @Override
-//        public void onLoadResource(WebView view, String url){
-//            Log.d("KEDD", "Image at "+url+" is loading...");
-//        }
 
     }
 

@@ -15,15 +15,13 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 public class ImageViewerActivity extends ActionBarActivity {
 
-    private String url;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_image_viewer);
 
-        url = getIntent().getStringExtra("url");
+        String url = getIntent().getStringExtra("url");
 
         TouchImageView imageView = (TouchImageView) findViewById(R.id.image_viewer);
 

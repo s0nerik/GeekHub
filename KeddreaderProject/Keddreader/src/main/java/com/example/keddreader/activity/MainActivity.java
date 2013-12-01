@@ -11,14 +11,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.keddreader.App;
 import com.example.keddreader.R;
 import com.example.keddreader.fragment.ArticleFragment;
 import com.example.keddreader.fragment.FavFragment;
 import com.example.keddreader.fragment.NoConnectionFragment;
 import com.example.keddreader.fragment.RefreshFragment;
 import com.example.keddreader.fragment.TitlesFragment;
-import com.example.keddreader.model.Article;
 import com.example.keddreader.model.AsyncFeedGetter;
 import com.example.keddreader.model.Connectivity;
 import com.example.keddreader.model.Feed;
