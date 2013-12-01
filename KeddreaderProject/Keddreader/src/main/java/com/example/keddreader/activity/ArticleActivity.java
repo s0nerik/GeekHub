@@ -1,5 +1,6 @@
 package com.example.keddreader.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -63,22 +64,12 @@ public class ArticleActivity extends BaseActivity {
             case R.id.action_save_to_fav:
                 toggleFavorite(item);
                 return true;
+            case R.id.action_share:
+                shareCurrentArticle();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void toggleFavorite(MenuItem item){
-
-        Article currentArticle = feedSingleton.getCurrentArticle();
-        if(!currentArticleIsFav()){
-            item.setIcon(R.drawable.ic_action_important);
-            App.favDbHelper.addFav(currentArticle);
-        }else{
-            item.setIcon(R.drawable.ic_action_not_important);
-            App.favDbHelper.removeFav(currentArticle);
-        }
-
     }
 
 }

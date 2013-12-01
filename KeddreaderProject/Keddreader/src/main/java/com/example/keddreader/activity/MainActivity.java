@@ -125,6 +125,10 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
                 if(currentArticleIsFav()){
                     favIcon.setIcon(R.drawable.ic_action_important);
                 }
+
+                // Set "share" icon visible
+                menu.findItem(R.id.action_share).setVisible(true);
+
             }
         }
         return true;
@@ -146,9 +150,18 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
                 updateRSS();
                 return true;
 
+            case R.id.action_share:
+                shareCurrentArticle();
+                return true;
+
+            // This may only be called when running tablet in landscape layout.
             case R.id.action_save_to_fav:
                 toggleFavorite(item);
+
+                // Update favorites list
+                favFragment.setDataFromFavDb();
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -208,22 +221,6 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
         feedSingleton.refreshFeed(this);
     }
 
-    private void toggleFavorite(MenuItem item){
-
-        Article currentArticle = feedSingleton.getCurrentArticle();
-        // If article is not favorite, set it favorite, and vice versa
-        if(!currentArticleIsFav()){
-            item.setIcon(R.drawable.ic_action_important);
-            App.favDbHelper.addFav(currentArticle);
-        }else{
-            item.setIcon(R.drawable.ic_action_not_important);
-            App.favDbHelper.removeFav(currentArticle);
-        }
-
-        // Update favorites list
-        favFragment.setDataFromFavDb();
-    }
-
     @Override
     public boolean onNavigationItemSelected(int position, long id) {
         switch(position){
@@ -238,16 +235,16 @@ public class MainActivity extends BaseActivity implements AsyncFeedGetter, Actio
 
             case 1: // Favorite articles
                 spinnerPosition = 1;
-
                 favFragment.setDataFromFavDb();
-
                 fragmentManager.beginTransaction()
                         .show(favFragment)
                         .hide(titlesFragment)
                         .commit();
                 return true;
+
             default:
                 return false;
+
         }
     }
 }

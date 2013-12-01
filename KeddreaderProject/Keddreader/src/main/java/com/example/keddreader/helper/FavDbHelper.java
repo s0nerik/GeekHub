@@ -12,7 +12,7 @@ import com.example.keddreader.model.Article;
 
 public class FavDbHelper extends SQLiteOpenHelper{
 
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_NAME = "test";
 
     public static final String TABLE_NAME = "favorites";
@@ -20,18 +20,21 @@ public class FavDbHelper extends SQLiteOpenHelper{
     public static final String CONTENT = "content";
     public static final String AUTHOR = "author";
     public static final String DATE = "pubDate";
+    public static final String LINK = "link";
 
     public static final int TITLE_ID = 1;
     public static final int CONTENT_ID = 2;
     public static final int DATE_ID = 3;
     public static final int AUTHOR_ID = 4;
+    public static final int LINK_ID = 5;
 
     private static final String CREATE_TABLE = "create table "
             + TABLE_NAME + " ( _id integer primary key autoincrement, "
             + TITLE + " TEXT, "
             + CONTENT + " TEXT, "
             + DATE + " TEXT, "
-            + AUTHOR + " TEXT)";
+            + AUTHOR + " TEXT, "
+            + LINK + " TEXT)";
 
     private static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -56,6 +59,7 @@ public class FavDbHelper extends SQLiteOpenHelper{
         cv.put(CONTENT, article.getContent());
         cv.put(DATE, article.getPubDate());
         cv.put(AUTHOR, article.getAuthor());
+        cv.put(LINK, article.getLink());
         App.writableFavDB.insert(TABLE_NAME, null, cv);
     }
 
@@ -71,8 +75,9 @@ public class FavDbHelper extends SQLiteOpenHelper{
             String articleContent = c.getString(CONTENT_ID);
             String articlePubDate = c.getString(DATE_ID);
             String articleAuthor = c.getString(AUTHOR_ID);
+            String articleLink = c.getString(LINK_ID);
             c.close();
-            return new Article(articleTitle, articleContent, articlePubDate, articleAuthor);
+            return new Article(articleTitle, articleContent, articlePubDate, articleAuthor, articleLink);
         }else{
             c.close();
             Log.e("KEDD", "No such article: " + title);

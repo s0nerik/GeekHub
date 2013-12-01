@@ -13,14 +13,16 @@ public class Article {
     private String content;
     private String pubDate;
     private String author;
+    private String link;
 
     public Article(){}
 
-    public Article(String title, String content, String pubDate, String author){
+    public Article(String title, String content, String pubDate, String author, String link){
         this.title = title;
         this.content = content;
         this.pubDate = pubDate;
         this.author = author;
+        this.link = link;
     }
 
     public String getTitle() {
@@ -37,6 +39,10 @@ public class Article {
 
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate.substring(5, pubDate.lastIndexOf(":"));
+    }
+
+    public String getContent(){
+        return content;
     }
 
     public void setContent(String cnt){
@@ -82,15 +88,19 @@ public class Article {
         content = doc.html();
     }
 
-    public String getContent(){
-        return content;
-    }
-
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }
